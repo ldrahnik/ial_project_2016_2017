@@ -32,7 +32,8 @@ const char *HELP_MSG = {
 typedef struct params {
   int show_help_message;                // option i
   int ecode;                            // error code
-  char** graph_route;                   // format node0 -> number (positive or negative) -> node1
+  char** graph_route;                   // format rated: node0 -> number (positive or negative) -> node1
+                                        // format unrated: node0 -> node1 -> node2 -> node3
   int contains_negative_edge;           // some algorithm does not support negative edge
   int is_graph_rated;
   char* node_start;
