@@ -1,0 +1,19 @@
+Společná část popisu:
+Náhradní projekt je určen pouze pro studenty, kteří v předmětu IFJ neřeší projekt (např. studenti FEKT nebo studenti opakující předmět).
+Projekt řeší trojice nebo čtveřice studentů.
+Na jednotlivé varianty projektu se přihlašuje v IS FIT.
+Řešení v jazyce C musí být přeložitelné na serveru eva.
+Maximální hodnocení:
+funkčnost 7 bodů
+dokumentace 3 body
+obhajoba 5 bodů
+Řešení zabalené v jednom zip archivu odevzdává vedoucí týmu prostřednictvím IS FIT.
+Závazné pokyny pro vypracování dokumentace k náhradním projektům a doporučení pro závěrečné obhajoby projektů naleznete v souborech k předmětu v adresáři Projekty v souborech doporuceni_pro_obhajoby.doc a nahradni_projekty_dokumentace.doc.
+Projekt konzultuje a hodnotí Ing. Kamil Jeřábek.
+Popis varianty:
+Zadání:
+Posloupnost vrcholů a hran grafu, kde každá hrana má za koncové vrcholy předchozí a následující vrchol této posloupnosti (pro orientované grafy musí souhlasit i orientace hrany od předchozího k následujícímu vrcholu posloupnosti) a kde se každá hrana vyskytuje nejvýše jednou, se nazývá (orientovaná) cesta. 
+
+Vytvořte program pro hledání nejkratší cesty v grafu mezi dvěma zadanými vrcholy. Úlohu řešte pro neorientované i orientované grafy a pro neohodnocené i ohodnocené grafy. V případě ohodnocených grafů považujte za vzdálenost vrcholů ohodnocení hrany mezi nimi. 
+
+Pokud existuje více řešení, nalezněte všechna. Výsledky prezentujte vhodným způsobem. Součástí projektu bude načítání grafů ze souboru a vhodné testovací grafy. V dokumentaci uveďte teoretickou složitost úlohy a porovnejte ji s experimentálními výsledky.
