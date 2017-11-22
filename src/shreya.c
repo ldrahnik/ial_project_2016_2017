@@ -16,15 +16,15 @@
  * Help message.
  */
 const char *HELP_MSG = {
-  "The shorted path in graph between two nodes.\n\n"
+  "The shorted path in graph between two vertices.\n\n"
   "Example of usage:\n\n"
-  "./shreya [-h ] [-r ] [-i <graph_path as string>] <node_start> <node_end>\n\n"
+  "./shreya [-h ] [-r ] [-i <graph_path as string>] <vertice_start> <vertice_end>\n\n"
   "Options:\n"
   "-r -- rated graph\n"
   "-o -- oriented graph\n"
   "-h -- show help message\n"
-  "-i -- string contains graph_path (for example rated graph node0 -> 4 -> node1)\n"
-  "<node> -- name of valid node (first is start, second is end)\n"
+  "-i -- string contains graph_path (for example rated graph vertice0 -> 4 -> vertice1)\n"
+  "<vertice> -- name of valid vertice (first is start, second is end)\n"
 };
 
 const char *plus = "+";
@@ -36,13 +36,13 @@ const char *minus = "-";
 typedef struct params {
   int show_help_message;                // option i
   int ecode;                            // error code
-  char** graph_route;                   // format rated: node0 -> number (positive or negative) -> node1
-                                        // format unrated: node0 -> node1 -> node2 -> node3
+  char** graph_route;                   // format rated: vertice0 -> number (positive or negative) -> vertice1
+                                        // format unrated: vertice0 -> vertice1 -> vertice2 -> vertice3
   int contains_negative_edge;           // some algorithm does not support negative edge
   int is_graph_rated;                   // program take care about numbers
   int is_graph_oriented;                // program take care about +/-
-  char* node_start;
-  char* node_end;
+  char* vertice_start;
+  char* vertice_end;
 } TParams;
 
 /**
@@ -52,8 +52,8 @@ enum ecodes {
   EOK = 0,               // ok
   EOPT = 1,              // invalid option (option argument is missing,
                          // unknown option, unknown option character)
-  ENODE_START = 2,       // node_start is not valid
-  ENODE_END = 3,         // node_start is not valid
+  EVERTICE_START = 2,    // vertice_start is not valid
+  EVERTICE_END = 3,      // vertice_end is not valid
   ERATED_GRAPH = 4,      // spec. rated graph: min length, error like edge is not digit number
   EUNRATED_GRAPH = 5,    // spec. unrated graph: min length
   EGRAPH = 6,            // graph common
@@ -118,25 +118,25 @@ int isNumberEdge(char* c) {
   return isNumber(c) && !isNonRatedEdge(c);
 }
 
-int stepByStepGraphRoute(char** graph_route, int is_graph_rated, int contains_negative_edge, int validate_node, char* node) {
+int stepByStepGraphRoute(char** graph_route, int is_graph_rated, int contains_negative_edge, int validate_vertice, char* vertice) {
   int i = 0;
 
-  // <start_node> <edge> <end_node> ...
-  // <start_node> <edge> <end_node> <edge> <end_node> ...
-  int start_node = 0;
+  // <start_vertice> <edge> <end_vertice> ...
+  // <start_vertice> <edge> <end_vertice> <edge> <end_vertice> ...
+  int start_vertice = 0;
   int edge = 0;
-  int end_node = 0;
+  int end_vertice = 0;
 
   while(graph_route[i]) {
-    if(start_node == 0) { // start_node
-      fprintf(stderr, "DEBUG: start_node at index: %i\n", i);
-      start_node = 1;
+    if(start_vertice == 0) { // start_vertice
+      fprintf(stderr, "DEBUG: start_vertice at index: %i\n", i);
+      start_vertice = 1;
 
-      // validate node
-      if(validate_node == 1 && strcmp(graph_route[i], node) == 0) {
+      // validate vertice
+      if(validate_vertice == 1 && strcmp(graph_route[i], vertice) == 0) {
         return 1;
       }
-    } else if(start_node == 1 && edge == 0) { // edge
+    } else if(start_vertice == 1 && edge == 0) { // edge
       if(isNumberEdge(graph_route[i])) {
         fprintf(stderr, "DEBUG: edge as number at index: %i\n", i);
 
@@ -157,21 +157,21 @@ int stepByStepGraphRoute(char** graph_route, int is_graph_rated, int contains_ne
         fprintf(stderr, "DEBUG: edge +/- at index: %i\n", i);
         edge = 1;
       }
-    } else if (start_node == 1 && edge == 1 && end_node == 0) {  // end_node
-      fprintf(stderr, "DEBUG: end_node at index: %i\n", i);
-      end_node = 1;
+    } else if (start_vertice == 1 && edge == 1 && end_vertice == 0) {  // end_vertice
+      fprintf(stderr, "DEBUG: end_vertice at index: %i\n", i);
+      end_vertice = 1;
 
-      // validate node
-      if(validate_node == 1 && strcmp(graph_route[i], node) == 0) {
+      // validate vertice
+      if(validate_vertice == 1 && strcmp(graph_route[i], vertice) == 0) {
         return 1;
       }
-    } else if(start_node == 1 && edge == 1 && end_node == 1) {
+    } else if(start_vertice == 1 && edge == 1 && end_vertice == 1) {
       if(isNumber(graph_route[i]) && strcmp(graph_route[i], plus) != 0 && strcmp(graph_route[i], minus) != 0) {
         fprintf(stderr, "DEBUG: edge-e-e as number at index: %i\n", i);
 
         edge = 1;
-        start_node = 1;
-        end_node = 0;
+        start_vertice = 1;
+        end_vertice = 0;
 
         // check if is rated_graph
         if(is_graph_rated == 1) {
@@ -185,35 +185,35 @@ int stepByStepGraphRoute(char** graph_route, int is_graph_rated, int contains_ne
           }
         }
       } else {
-        fprintf(stderr, "DEBUG: start_node at index: %i\n", i);
-        start_node = 1;
-        end_node = 0;
+        fprintf(stderr, "DEBUG: start_vertice at index: %i\n", i);
+        start_vertice = 1;
+        end_vertice = 0;
         edge = 0;
 
-        // validate node
-        if(validate_node == 1 && strcmp(graph_route[i], node) == 0) {
+        // validate vertice
+        if(validate_vertice == 1 && strcmp(graph_route[i], vertice) == 0) {
           return 1;
         }
       }
     } else {
-      fprintf(stderr, "Error at index: %i, node_start: %i, node_end: %i, edge: %i\n", i, start_node, end_node, edge);
+      fprintf(stderr, "Error at index: %i, vertice_start: %i, vertice_end: %i, edge: %i\n", i, start_vertice, end_vertice, edge);
       return -1;
     }
     i++;
   }
-  if(start_node == 1 && edge == 0) {
+  if(start_vertice == 1 && edge == 0) {
     fprintf(stderr, "There is missing edge at index %i.\n", i);
     return -1;
   }
-  if(start_node == 1 && edge == 1 && end_node == 0) {
-    fprintf(stderr, "There is missing end_node at index %i.\n", i);
+  if(start_vertice == 1 && edge == 1 && end_vertice == 0) {
+    fprintf(stderr, "There is missing end_vertice at index %i.\n", i);
     return -1;
   }
   return 0;
 }
 
 /**
- * Get TParams structure from terminal options, option arguments and nodes.
+ * Get TParams structure from terminal options, option arguments and vertices.
  *
  * @return TParams
  */
@@ -273,7 +273,7 @@ TParams getParams(int argc, char *argv[]) {
         }
         params.ecode = EOPT;
       default:
-        fprintf (stderr, "At least one node is required.\n");
+        fprintf (stderr, "At least one vertice is required.\n");
         params.ecode = EOPT;
     }
   }
@@ -300,19 +300,19 @@ TParams getParams(int argc, char *argv[]) {
     length_of_graph_route++;
 
   if(params.is_graph_rated && length_of_graph_route < 3) { // atleast 'A +/-1 B'
-    fprintf(stderr, "Minimum skeleton of rated graph is 'A 12 B', that means 2 nodes and 1 rated edge. Given: %s.\n", input);
+    fprintf(stderr, "Minimum skeleton of rated graph is 'A 12 B', that means 2 vertices and 1 rated edge. Given: %s.\n", input);
     params.ecode = ERATED_GRAPH;
   } else if(length_of_graph_route < 3) { // atleast 'A +/- B'
-    fprintf(stderr, "Minimum skeleton of unrated graph is 'A B', that means 2 nodes and one unvision unrated edge. Given: %s.\n", input);
+    fprintf(stderr, "Minimum skeleton of unrated graph is 'A B', that means 2 vertices and one unvision unrated edge. Given: %s.\n", input);
     params.ecode = EUNRATED_GRAPH;
   }
 
-  // default nodes [count of non option args = argc - optind]
+  // default vertices [count of non option args = argc - optind]
   int non_option_count = argc - optind;
 
-  // there can be only 2 nodes: <node_start> <node_end>
+  // there can be only 2 vertices: <vertice_start> <vertice_end>
   if(non_option_count > 2) {
-    fprintf(stderr, "Too match nodes. Can be there only node_start and node_end.\n");
+    fprintf(stderr, "Too match vertices. Can be there only vertice_start and vertice_end.\n");
     params.ecode = EOPT;
 
     // clean
@@ -321,7 +321,7 @@ TParams getParams(int argc, char *argv[]) {
     return params;
   }
   if(non_option_count < 1) {
-    fprintf(stderr, "node_start and node_end is missing.\n");
+    fprintf(stderr, "vertice_start and vertice_end is missing.\n");
     params.ecode = EOPT;
 
     // clean
@@ -330,25 +330,25 @@ TParams getParams(int argc, char *argv[]) {
     return params;
   }
   if(non_option_count < 2) {
-    fprintf(stderr, "node_end is missing.\n");
+    fprintf(stderr, "vertice_end is missing.\n");
     params.ecode = EOPT;
     return params;
   }
 
-  // is node_start valid?
+  // is vertice_start valid?
   if(stepByStepGraphRoute(params.graph_route, 0, 0, 1, argv[optind])) {
-    params.node_start = argv[optind];
+    params.vertice_start = argv[optind];
   } else {
-    fprintf(stderr, "node_start is not valid, node: '%s' does not exist.\n", argv[optind]);
-    params.ecode = ENODE_START;
+    fprintf(stderr, "vertice_start is not valid, vertice: '%s' does not exist.\n", argv[optind]);
+    params.ecode = EVERTICE_START;
   }
 
-  // is node_end valid?
+  // is vertice_end valid?
   if(stepByStepGraphRoute(params.graph_route, 0, 0, 1, argv[optind + 1])) {
-    params.node_end = argv[optind + 1];
+    params.vertice_end = argv[optind + 1];
   } else {
-    fprintf(stderr, "node_end is not valid, node: '%s' does not exist.\n", argv[optind + 1]);
-    params.ecode = ENODE_END;
+    fprintf(stderr, "vertice_end is not valid, vertice: '%s' does not exist.\n", argv[optind + 1]);
+    params.ecode = EVERTICE_END;
   }
 
   // clean
