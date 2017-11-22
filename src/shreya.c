@@ -217,8 +217,19 @@ TParams getParams(int argc, char *argv[]) {
   // default nodes [count of non option args = argc - optind]
   int non_option_count = argc - optind;
 
-  // there can not be more than 2 nodes: <node_start> <node_end>
-  if(non_option_count != 2) {
+  // there can be only 2 nodes: <node_start> <node_end>
+  if(non_option_count > 2) {
+    fprintf(stderr, "Too match nodes. Can be there only node_start and node_end.\n");
+    params.ecode = EOPT;
+    return params;
+  }
+  if(non_option_count < 1) {
+    fprintf(stderr, "node_start and node_end is missing.\n");
+    params.ecode = EOPT;
+    return params;
+  }
+  if(non_option_count < 2) {
+    fprintf(stderr, "node_end is missing.\n");
     params.ecode = EOPT;
     return params;
   }
