@@ -21,10 +21,14 @@ const char *HELP_MSG = {
   "./shreya [-h ] [-r ] [-i <graph_path as string>] <node_start> <node_end>\n\n"
   "Options:\n"
   "-r -- rated graph\n"
+  "-o -- oriented graph\n"
   "-h -- show help message\n"
   "-i -- string contains graph_path (for example rated graph node0 -> 4 -> node1)\n"
   "<node> -- name of valid node (first is start, second is end)\n"
 };
+
+const char *plus = "+";
+const char *minus = "-";
 
 /**
  * Terminal params.
@@ -35,7 +39,8 @@ typedef struct params {
   char** graph_route;                   // format rated: node0 -> number (positive or negative) -> node1
                                         // format unrated: node0 -> node1 -> node2 -> node3
   int contains_negative_edge;           // some algorithm does not support negative edge
-  int is_graph_rated;
+  int is_graph_rated;                   // program take care about numbers
+  int is_graph_oriented;                // program take care about +/-
   char* node_start;
   char* node_end;
 } TParams;
@@ -49,59 +54,11 @@ enum ecodes {
                          // unknown option, unknown option character)
   ENODE_START = 2,       // node_start is not valid
   ENODE_END = 3,         // node_start is not valid
-  ERATED_GRAPH = 4,      // min length, error like edge is not digit number
-  EUNRATED_GRAPH = 5,    // min length
-  EALLOC = 6,
+  ERATED_GRAPH = 4,      // spec. rated graph: min length, error like edge is not digit number
+  EUNRATED_GRAPH = 5,    // spec. unrated graph: min length
+  EGRAPH = 6,            // graph common
+  EALLOC = 7,
 };
-
-/**
- * Wrapper of isdigit.
- */
-int isNumber(char number[]) {
-    int i = 0;
-    if (number[0] == '-')
-        i = 1;
-    for (; number[i] != 0; i++)
-      if (!isdigit(number[i]))
-        return 0;
-    return 1;
-}
-
-/**
- * Validation of node.
- */
-int isValidNode(char** graph_route, TParams params, char* node) {
-  int i = 0;
-  while(graph_route[i]) {
-    if(params.is_graph_rated == 1) {
-      if(i % 2 == 0) // odd number of index (take care only about nodes, not edge's)
-        if(strcmp(graph_route[i], node) == 0)
-          return 1;
-    } else {
-      if(strcmp(graph_route[i], node) == 0)
-        return 1;
-    }
-    i++;
-  }
-  return 0;
-}
-
-/**
- * Contains any negative edge? 1|0
- */
-int containsGraphNegativeEdge(char** graph_route) {
-  int i = 0;
-  while(graph_route[i]) {
-    if(i % 2 && !isNumber(graph_route[i])) {
-      fprintf(stderr, "Rating of edge needs to be digit. Given: %s.\n", graph_route[i]);
-      return -1;
-    } else if(i % 2 && isNumber(graph_route[i]) && atoi(graph_route[i]) < 0) {
-      return 1;
-    }
-    i++;
-  }
-  return 0;
-}
 
 /**
  * Parse for example -i 'A 1 B 2 C' to  [0] = A, [1] = 1 ... [5] = (null)
@@ -138,6 +95,123 @@ char** parseInputToGraphRoute(char* input) {
   return res;
 }
 
+
+int isNumber(char number[]) {
+  int i = 0;
+  if (number[0] == '-')
+    i = 1;
+  for (; number[i] != 0; i++)
+    if (!isdigit(number[i]))
+      return 0;
+  return 1;
+}
+
+int isNonRatedEdge(char* c) {
+  return strcmp(c, plus) == 0 || strcmp(c, minus) == 0;
+}
+
+int isEdge(char* c) {
+  return isNumber(c) || isNonRatedEdge(c);
+}
+
+int isNumberEdge(char* c) {
+  return isNumber(c) && !isNonRatedEdge(c);
+}
+
+int stepByStepGraphRoute(char** graph_route, int is_graph_rated, int contains_negative_edge, int validate_node, char* node) {
+  int i = 0;
+
+  // <start_node> <edge> <end_node> ...
+  // <start_node> <edge> <end_node> <edge> <end_node> ...
+  int start_node = 0;
+  int edge = 0;
+  int end_node = 0;
+
+  while(graph_route[i]) {
+    if(start_node == 0) { // start_node
+      fprintf(stderr, "DEBUG: start_node at index: %i\n", i);
+      start_node = 1;
+
+      // validate node
+      if(validate_node == 1 && strcmp(graph_route[i], node) == 0) {
+        return 1;
+      }
+    } else if(start_node == 1 && edge == 0) { // edge
+      if(isNumberEdge(graph_route[i])) {
+        fprintf(stderr, "DEBUG: edge as number at index: %i\n", i);
+
+        edge = 1;
+
+        // check if is rated_graph
+        if(is_graph_rated == 1) {
+          return 1;
+        }
+
+        // negative check
+        if(contains_negative_edge == 1) {
+          if(atoi(graph_route[i]) < 0) {
+            return 1;
+          }
+        }
+      } else if (strcmp(graph_route[i], plus) != 0 || strcmp(graph_route[i], minus) != 0) {
+        fprintf(stderr, "DEBUG: edge +/- at index: %i\n", i);
+        edge = 1;
+      }
+    } else if (start_node == 1 && edge == 1 && end_node == 0) {  // end_node
+      fprintf(stderr, "DEBUG: end_node at index: %i\n", i);
+      end_node = 1;
+
+      // validate node
+      if(validate_node == 1 && strcmp(graph_route[i], node) == 0) {
+        return 1;
+      }
+    } else if(start_node == 1 && edge == 1 && end_node == 1) {
+      if(isNumber(graph_route[i]) && strcmp(graph_route[i], plus) != 0 && strcmp(graph_route[i], minus) != 0) {
+        fprintf(stderr, "DEBUG: edge-e-e as number at index: %i\n", i);
+
+        edge = 1;
+        start_node = 1;
+        end_node = 0;
+
+        // check if is rated_graph
+        if(is_graph_rated == 1) {
+          return 1;
+        }
+
+        // negative check
+        if(contains_negative_edge == 1) {
+          if(atoi(graph_route[i]) < 0) {
+            return 1;
+          }
+        }
+      } else {
+        fprintf(stderr, "DEBUG: start_node at index: %i\n", i);
+        start_node = 1;
+        end_node = 0;
+        edge = 0;
+
+        // validate node
+        if(validate_node == 1 && strcmp(graph_route[i], node) == 0) {
+          return 1;
+        }
+      }
+    } else {
+      fprintf(stderr, "Error at index: %i, node_start: %i, node_end: %i, edge: %i\n", i, start_node, end_node, edge);
+      return -1;
+    }
+    i++;
+  }
+  if(start_node == 1 && edge == 0) {
+    fprintf(stderr, "There is missing edge at index %i.\n", i);
+    return -1;
+  }
+  if(start_node == 1 && edge == 1 && end_node == 0) {
+    fprintf(stderr, "There is missing end_node at index %i.\n", i);
+    return -1;
+  }
+  return 0;
+}
+
 /**
  * Get TParams structure from terminal options, option arguments and nodes.
  *
@@ -150,6 +224,7 @@ TParams getParams(int argc, char *argv[]) {
     .ecode = EOK,
     .is_graph_rated = 0,
     .contains_negative_edge = 0,
+    .is_graph_oriented = 0,
   };
 
   // don't want getopt() writing to stderr
@@ -160,7 +235,7 @@ TParams getParams(int argc, char *argv[]) {
 
   // getopt
   int c;
-  while ((c = getopt(argc, argv, "rhi:")) != -1) {
+  while ((c = getopt(argc, argv, "orhi:")) != -1) {
     switch (c) {
       case 'h':
         params.show_help_message = 1;
@@ -168,12 +243,23 @@ TParams getParams(int argc, char *argv[]) {
       case 'r':
         params.is_graph_rated = 1;
         break;
+      case 'o':
+        params.is_graph_oriented = 1;
+        break;
       case 'i':
         input = (char*)malloc(sizeof(strlen(optarg)));
+        if(input == NULL) {
+          params.ecode = EALLOC;
+          return params;
+        }
         strcpy(input, optarg);
         params.graph_route = parseInputToGraphRoute(optarg);
         if(params.graph_route == NULL) {
           params.ecode = EALLOC;
+
+          // clean
+          free(input);
+
           return params;
         }
         break;
@@ -192,24 +278,31 @@ TParams getParams(int argc, char *argv[]) {
     }
   }
 
-  // is there negative edge?
-  if(params.is_graph_rated) {
-    int res = containsGraphNegativeEdge(params.graph_route);
-    if(res == -1) {
-      params.ecode = ERATED_GRAPH;
-    }
-    params.contains_negative_edge = res;
+  if(stepByStepGraphRoute(params.graph_route, 0, 0, 0, 0) == -1) {
+    params.ecode = EGRAPH;
+    return params;
   }
+
+  // is graph oriented
+  printf("\nDEBUG: graph is oriented: %i\n\n", params.is_graph_oriented);
+
+  // is graph rated
+  params.is_graph_rated = params.is_graph_rated ? stepByStepGraphRoute(params.graph_route, 1, 0, 0, 0) : 0;
+  printf("\nDEBUG: graph is rated: %i\n\n", params.is_graph_rated);
+
+  // is there negative edge?
+  params.contains_negative_edge = params.is_graph_oriented ? stepByStepGraphRoute(params.graph_route, 0, 1, 0, 0) : 0;
+  printf("\nDEBUG: graph contains negative edge: %i\n\n", params.contains_negative_edge);
 
   // check correct minimum of graph length
   int length_of_graph_route = 0;
   while(params.graph_route[length_of_graph_route])
     length_of_graph_route++;
 
-  if(params.is_graph_rated && length_of_graph_route < 3) { // atleast 'A 1 B'
+  if(params.is_graph_rated && length_of_graph_route < 3) { // atleast 'A +/-1 B'
     fprintf(stderr, "Minimum skeleton of rated graph is 'A 12 B', that means 2 nodes and 1 rated edge. Given: %s.\n", input);
     params.ecode = ERATED_GRAPH;
-  } else if(length_of_graph_route < 2) { // atleast 'A B'
+  } else if(length_of_graph_route < 3) { // atleast 'A +/- B'
     fprintf(stderr, "Minimum skeleton of unrated graph is 'A B', that means 2 nodes and one unvision unrated edge. Given: %s.\n", input);
     params.ecode = EUNRATED_GRAPH;
   }
@@ -221,11 +314,19 @@ TParams getParams(int argc, char *argv[]) {
   if(non_option_count > 2) {
     fprintf(stderr, "Too match nodes. Can be there only node_start and node_end.\n");
     params.ecode = EOPT;
+
+    // clean
+    free(input);
+
     return params;
   }
   if(non_option_count < 1) {
     fprintf(stderr, "node_start and node_end is missing.\n");
     params.ecode = EOPT;
+
+    // clean
+    free(input);
+
     return params;
   }
   if(non_option_count < 2) {
@@ -235,7 +336,7 @@ TParams getParams(int argc, char *argv[]) {
   }
 
   // is node_start valid?
-  if(isValidNode(params.graph_route, params, argv[optind])) {
+  if(stepByStepGraphRoute(params.graph_route, 0, 0, 1, argv[optind])) {
     params.node_start = argv[optind];
   } else {
     fprintf(stderr, "node_start is not valid, node: '%s' does not exist.\n", argv[optind]);
@@ -243,7 +344,7 @@ TParams getParams(int argc, char *argv[]) {
   }
 
   // is node_end valid?
-  if(isValidNode(params.graph_route, params, argv[optind + 1])) {
+  if(stepByStepGraphRoute(params.graph_route, 0, 0, 1, argv[optind + 1])) {
     params.node_end = argv[optind + 1];
   } else {
     fprintf(stderr, "node_end is not valid, node: '%s' does not exist.\n", argv[optind + 1]);
@@ -279,6 +380,8 @@ int main(int argc, char *argv[]) {
   if(params.ecode != EOK) {
     return params.ecode;
   }
+
+  fprintf(stderr, "\nDEBUG: getParams() successfuly ended.\n");
 
   // help message
   if(params.show_help_message) {
