@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
+#include <unistd.h>
 
 /**
  * Help message.
@@ -231,7 +232,11 @@ TParams getParams(int argc, char *argv[]) {
   opterr = 0;
 
   // for debug prints only
-  char* input;
+  char* input = 0;
+
+  // file
+  FILE *file;
+  long length;
 
   // getopt
   int c;
@@ -247,13 +252,29 @@ TParams getParams(int argc, char *argv[]) {
         params.is_graph_oriented = 1;
         break;
       case 'i':
-        input = (char*)malloc(sizeof(strlen(optarg)));
-        if(input == NULL) {
-          params.ecode = EALLOC;
-          return params;
+        file = fopen(optarg,"rb");
+        if(file != NULL) {
+          fseek(file, 0, SEEK_END);
+          length = ftell(file);
+          fseek(file, 0, SEEK_SET);
+          input = malloc(length);
+          if(input == NULL) {
+            params.ecode = EALLOC;
+            return params;
+          }
+          if(input) {
+            fread(input, 1, length, file);
+          }
+          fclose(file);
+        } else {
+          input = malloc(strlen(optarg));
+          if(input == NULL) {
+            params.ecode = EALLOC;
+            return params;
+          }
+          strcpy(input, optarg);
         }
-        strcpy(input, optarg);
-        params.graph_route = parseInputToGraphRoute(optarg);
+        params.graph_route = parseInputToGraphRoute(input);
         if(params.graph_route == NULL) {
           params.ecode = EALLOC;
 
