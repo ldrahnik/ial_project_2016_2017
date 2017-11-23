@@ -1,7 +1,7 @@
 #usr/bin/sh
 
 # test01 - non oriented non rated
-./shreya -i ./tests/test01
+./shreya -i ./tests/test01 A B
 
 # test01 - oriented non rated
 #./shreya -i ./tests/test01 -o
