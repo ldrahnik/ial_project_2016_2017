@@ -17,7 +17,7 @@ enum ecodes {
   ERATED_GRAPH = 4,      // spec. rated graph: min length, error like edge is not digit number
   EUNRATED_GRAPH = 5,    // spec. unrated graph: min length
   EGRAPH = 6,            // graph common
-  EALLOC = 7,
+  EALLOC = 7,            // alloc problem 
 };
 
 #endif
