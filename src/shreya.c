@@ -81,6 +81,7 @@ int main(int argc, char *argv[]) {
       fprintf(stderr, "DEBUG: %u: %d\n", i, results.distances[i]);
     }
 
+    // TODO: find all results if there are any with the same distance
     fprintf(stdout, "\nRESULT DISTANCE FROM %s to %s: %i\n", params.vertice_start, params.vertice_end, results.distances[end_position]);
 
     fprintf(stdout, "RESULT PATH: ");
