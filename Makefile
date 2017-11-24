@@ -5,18 +5,18 @@
 
 PROJECT_NAME     		= shreya
 PROJECT_DOC					= doc/manual.pdf
-PROJECT_SOURCES  		= src/shreya.c
-PROJECT_OBJECTS  		= $(PROJECT_SOURCES:.c=.o)
+PROJECT_SOURCES  		= src/*.c
+PROJECT_HEADERS			= src/*.h
 
 CC              		= gcc
-CFLAGS 							= -std=gnu99 -Wall -Wextra -Werror -pedantic
+CFLAGS 							= -std=gnu99 -Wextra -Werror -pedantic -g -Wall
 
 ###########################################
 
 all:			$(PROJECT_NAME)
 
-$(PROJECT_NAME): $(PROJECT_SOURCES)
-	$(CC) $(CFLAGS) $(PROJECT_SOURCES) -o $@
+$(PROJECT_NAME): $(PROJECT_SOURCES) $(PROJECT_HEADERS)
+	$(CC) $(CFLAGS) $(PROJECT_SOURCES) $(PROJECT_HEADERS) -o $@ -lm
 
 ############################################
 
