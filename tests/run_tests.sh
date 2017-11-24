@@ -1,16 +1,10 @@
 #usr/bin/sh
 
-# for development
+# 001 - for development (this graph https://www.algoritmy.net/article/7478/Bellman-Forduv-algoritmus, but numbers are chars)
 ./shreya -i ./tests/test01 A E -o -r
 
-# test01 - non oriented non rated
-# ./shreya -i ./tests/test01 A E -o -r
+# 002 - for development (more - two - results)
+./shreya -i ./tests/test02 A B -o -r
 
-# test01 - oriented non rated
-#./shreya -i ./tests/test01 -o
-
-# test01 - non oriented rated
-#./shreya -i ./tests/test01 -r
-
-# test01 - oriented rated
-#./shreya -i ./tests/test01 -o -r
+# 003 - for development (more - two - results) REVERSED
+./shreya -i ./tests/test03 A B -o -r
