@@ -14,10 +14,10 @@ enum ecodes {
                          // unknown option, unknown option character)
   EVERTICE_START = 2,    // vertice_start is not valid
   EVERTICE_END = 3,      // vertice_end is not valid
-  ERATED_GRAPH = 4,      // spec. rated graph: min length, error like edge is not digit number
+  ERATED_GRAPH = 4,      // spec. rated graph: min length, error like edge is not digit number, negative cycle
   EUNRATED_GRAPH = 5,    // spec. unrated graph: min length
   EGRAPH = 6,            // graph common
-  EALLOC = 7,            // alloc problem 
+  EALLOC = 7,            // alloc problem
 };
 
 #endif

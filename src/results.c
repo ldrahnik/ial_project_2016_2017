@@ -5,15 +5,14 @@
  * Email:						  <xtucko00@stud.fit.vutbr.cz>, <xtussu00@stud.fit.vutbr.cz>, <xlazno00@stud.fit.vutbr.cz>, <xdrahn00@stud.fit.vutbr.cz>
  */
 
-#ifndef _results_H_
-#define _results_H_
+#include "results.h"
 
-typedef struct results {
-  int* distances;
-  int* predecessors;
-  int ecode;
-} TResults;
-
-void cleanResults(TResults results);
-
-#endif
+#include <stdlib.h>
+ 
+/**
+ * Clean the mess.
+ */
+void cleanResults(TResults results) {
+  free(results.distances);
+  free(results.predecessors);
+}

@@ -118,7 +118,7 @@ TParams getParams(int argc, char *argv[]) {
 /**
  * Clean the mess.
  */
-void clean(TParams params) {
+void cleanParams(TParams params) {
   free(params.input);
   free(params.graph_route);
 }

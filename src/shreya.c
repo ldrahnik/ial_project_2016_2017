@@ -41,14 +41,14 @@ int main(int argc, char *argv[]) {
   // help message
   if(params.show_help_message) {
     printf("%s", HELP_MSG);
-    clean(params);
+    cleanParams(params);
     return ecode;
   }
 
   // get graph
   TGraph graph = getGraph(params);
   if(params.ecode != EOK) {
-    clean(params);
+    cleanParams(params);
     return params.ecode;
   }
 
@@ -66,13 +66,15 @@ int main(int argc, char *argv[]) {
     TResults results = bellmanFord(graph, start_position);
 
     if(results.ecode != EOK) {
-      fprintf(stderr, "Alloc problem");
-      return 1;
+      fprintf(stderr, "Alloc problem.\n");
+      cleanResults(results);
+      return results.ecode;
     }
 
     if(results.distances == NULL) {
       fprintf(stderr, "Graph contains a negative cycle.\n");
-      return 1;
+      cleanResults(results);
+      return ERATED_GRAPH;
     }
 
     int i;
@@ -92,11 +94,13 @@ int main(int argc, char *argv[]) {
       positionId = results.predecessors[positionId];
     }
     printf("\n");
+
+    cleanResults(results);
   } else {
     // TODO:
   }
 
-  clean(params);
+  cleanParams(params);
 
   return ecode;
 }

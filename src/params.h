@@ -24,6 +24,6 @@ typedef struct params {
 } TParams;
 
 TParams getParams(int argc, char *argv[]);
-void clean(TParams params);
+void cleanParams(TParams params);
 
 #endif

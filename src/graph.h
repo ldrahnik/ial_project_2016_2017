@@ -51,5 +51,6 @@ int isEdge(char* c);
 int isNumberEdge(char* c);
 int getPositionOfVertice(TGraph graph, char* vertice);
 int isVerticeValid(TGraph graph, char* vertice);
+void cleanGraph(TParams params);
 
 #endif
