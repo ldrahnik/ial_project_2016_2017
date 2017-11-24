@@ -248,22 +248,26 @@ TGraph getGraph(TParams params) {
 
   if(params.is_graph_rated && length_of_graph_route < 3) { // atleast 'A +/-1 B'
     fprintf(stderr, "Minimum skeleton of rated graph is 'A 12 B', that means 2 vertices and 1 rated edge. Given: %s.\n", params.input);
-    params.ecode = ERATED_GRAPH;
+    graph.ecode = ERATED_GRAPH;
+    return graph;
   } else if(length_of_graph_route < 3) { // atleast 'A +/- B'
     fprintf(stderr, "Minimum skeleton of unrated graph is 'A B', that means 2 vertices and one unvision unrated edge. Given: %s.\n", params.input);
-    params.ecode = EUNRATED_GRAPH;
+    graph.ecode = EUNRATED_GRAPH;
+    return graph;
   }
 
   // is vertice_start valid?
   if(!isVerticeValid(graph, params.vertice_start)) {
     fprintf(stderr, "vertice_start is not valid, vertice: '%s' does not exist.\n", params.vertice_start);
-    params.ecode = EVERTICE_START;
+    graph.ecode = EVERTICE_START;
+    return graph;
   }
 
   // is vertice_end valid?
   if(!isVerticeValid(graph, params.vertice_end)) {
     fprintf(stderr, "vertice_end is not valid, vertice: '%s' does not exist.\n", params.vertice_end);
-    params.ecode = EVERTICE_END;
+    graph.ecode = EVERTICE_END;
+    return graph;
   }
 
   return graph;
