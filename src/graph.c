@@ -115,7 +115,7 @@ TGraph stepByStepGraphRoute(char** graph_route) {
       start_vertice = 1;
 
       if(!isVerticeValid(graph, graph_route[i])) {
-        fprintf(stderr, "DEBUG: add new vertice at index: %i, %s, vertice exist: %i\n", i, graph_route[i], isVerticeValid(graph, graph_route[i]));
+        fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
         graph.vertice = (TVertice*)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
         graph.vertice[graph.vertices_count].name = graph_route[i];
         graph.vertices_count++;
@@ -140,7 +140,7 @@ TGraph stepByStepGraphRoute(char** graph_route) {
       end_vertice = 1;
 
       if(!isVerticeValid(graph, graph_route[i])) {
-        fprintf(stderr, "DEBUG: add new vertice at index: %i, %s, vertice exist: %i\n", i, graph_route[i], isVerticeValid(graph, graph_route[i]));
+        fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
         graph.vertice = (TVertice*)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
         graph.vertice[graph.vertices_count].name = graph_route[i];
         graph.vertices_count++;
@@ -177,7 +177,7 @@ TGraph stepByStepGraphRoute(char** graph_route) {
         edge = 0;
 
         if(!isVerticeValid(graph, graph_route[i])) {
-          fprintf(stderr, "DEBUG: add new vertice at index: %i, %s, vertice exist: %i\n", i, graph_route[i], isVerticeValid(graph, graph_route[i]));
+          fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
           graph.vertice = (TVertice*)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
           graph.vertice[graph.vertices_count].name = graph_route[i];
           graph.vertices_count++;
