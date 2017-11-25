@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
   // contains negative edge (bellmann-ford algorithm)
   if(graph.contains_negative_edge) {
 
-    TResults results = bellmanFord(graph, start_position);
+    TResults results = floydWarshall(graph);
 
     if(results.ecode != EOK) {
       fprintf(stderr, "Alloc problem.\n");
@@ -71,29 +71,14 @@ int main(int argc, char *argv[]) {
       return results.ecode;
     }
 
-    if(results.distances == NULL) {
-      fprintf(stderr, "Graph contains a negative cycle.\n");
-      cleanResults(results);
-      return ERATED_GRAPH;
-    }
+    print_distances(graph, results);
 
-    int i;
-    printf("\n");
-    for(i = 0; i < graph.vertices_count; i++) {
-      fprintf(stderr, "DEBUG: %u: %d\n", i, results.distances[i]);
-    }
+    fprintf(stdout, "\n");
 
-    // TODO: find all results if there are any with the same distance
-    fprintf(stdout, "\nRESULT DISTANCE FROM %s to %s: %i\n", params.vertice_start, params.vertice_end, results.distances[end_position]);
+    // TODO: more ways
+    printPath(graph, results, start_position, end_position);
 
-    fprintf(stdout, "RESULT PATH: ");
-
-    int positionId = end_position;
-    while(positionId != -1) {
-      printf("%s <- ", graph.vertice[positionId].name);
-      positionId = results.predecessors[positionId];
-    }
-    printf("\n");
+    fprintf(stdout, "\n");
 
     cleanResults(results);
   } else {

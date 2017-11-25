@@ -9,8 +9,8 @@
 #define _results_H_
 
 typedef struct results {
-  int* distances;
-  int* predecessors;
+  int** distances;
+  int** predecessors;
   int ecode;
 } TResults;
 

@@ -11,7 +11,7 @@
 #include "error.h"
 #include "graph.h"
 #include "params.h"
-#include "bellman_ford.h"
+#include "floyd_warshall.h"
 #include "results.h"
 
 #include <stdio.h>
