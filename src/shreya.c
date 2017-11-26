@@ -119,6 +119,8 @@ int main(int argc, char *argv[]) {
     // TODO: more ways
     printDijkstraPath(graph, results, end_position);
 
+    fprintf(stdout, "\n");
+
   cleanParams(params);
 
   return ecode;

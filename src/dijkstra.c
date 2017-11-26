@@ -13,7 +13,7 @@ TResults dijkstra(TGraph graph, int vertice_id) {
 
   TResults results = {
     .distances = malloc(graph.vertices_count * sizeof(int *)),
-    .predecessors = NULL,
+    .predecessors = malloc(graph.vertices_count * sizeof(int *)),
     .ecode = EOK,
   };
 
@@ -31,8 +31,10 @@ TResults dijkstra(TGraph graph, int vertice_id) {
 
   // All distances start infinite and all vertices start unvisited
   results.distances[0] = malloc(graph.vertices_count * sizeof(int));
+  results.predecessors[0] = malloc(graph.vertices_count * sizeof(int));
   for (i = 0; i < graph.vertices_count; i++) {
     results.distances[0][i] = INT_MAX;
+    results.predecessors[0][i] = INT_MIN;
     unvisited[i] = 1;
   }
 
@@ -40,6 +42,7 @@ TResults dijkstra(TGraph graph, int vertice_id) {
   results.distances[0][vertice_id] = 0;
 
   while (unvisited_count > 0) {
+
     // Update the distances to all neighbours
     int e, v;
     int min_distance;
@@ -49,6 +52,7 @@ TResults dijkstra(TGraph graph, int vertice_id) {
         int distance = results.distances[0][current] + graph.edge[e].weight;
         if (distance < results.distances[0][neighbour]) {
           results.distances[0][neighbour] = distance;
+          results.predecessors[0][neighbour] = current;
         }
       }
     }
@@ -71,7 +75,11 @@ TResults dijkstra(TGraph graph, int vertice_id) {
 }
 
 void printDijkstraPath(TGraph graph, TResults results, int end_vertice) {
-
+  if(end_vertice != INT_MIN) {
+    int positionId = results.predecessors[0][end_vertice];
+    printDijkstraPath(graph, results, positionId);
+    fprintf(stdout, "-> %s ", graph.vertice[end_vertice].name);
+  }
 }
 
 void printDijkstraDistances(TGraph graph, TResults results) {
