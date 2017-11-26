@@ -15,9 +15,14 @@
 void cleanResults(TGraph graph, TResults results) {
   int i;
   for (i = 0; i < graph.vertices_count; i++) {
-    free(results.distances[i]);
-    free(results.predecessors[i]);
+    if(results.distances[i] != NULL)
+      free(results.distances[i]);
+    if(results.predecessors[i] != NULL)
+      free(results.predecessors[i]);
   }
-  free(results.distances);
-  free(results.predecessors);
+  if(results.distances != NULL)
+    free(results.distances);
+  if(results.predecessors != NULL) {
+    free(results.predecessors);
+  }
 }

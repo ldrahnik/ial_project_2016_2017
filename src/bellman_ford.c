@@ -11,8 +11,8 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
   int i;
 
   TResults results = {
-    .distances = malloc(graph.vertices_count * sizeof(int)),
-    .predecessors = malloc(graph.vertices_count * sizeof(int)),
+    .distances = malloc(graph.vertices_count * sizeof(int *)),
+    .predecessors = malloc(graph.vertices_count * sizeof(int *)),
     .ecode = EOK,
   };
 

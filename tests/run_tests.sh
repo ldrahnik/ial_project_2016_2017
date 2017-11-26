@@ -11,3 +11,6 @@
 
 # 004 - for development (this graph http://www.martinbroadhurst.com/floyd-warshall-algorithm-in-c.html, but numbers are chars)
 ./shreya -i ./tests/test04 B D -o -r
+
+# 005 - http://www.martinbroadhurst.com/dijkstras-shortest-paths-algorithm-in-c.html, but numbers are chars)
+./shreya -i ./tests/test05 A F

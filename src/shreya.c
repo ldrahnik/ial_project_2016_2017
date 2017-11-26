@@ -102,6 +102,23 @@ int main(int argc, char *argv[]) {
 
     cleanResults(graph, results);
 
+    fprintf(stdout, "\nDijkstra:\n");
+
+    results = dijkstra(graph, start_position);
+
+    if(results.ecode != EOK) {
+      fprintf(stderr, "Alloc problem.\n");
+      cleanResults(graph, results);
+      return results.ecode;
+    }
+
+    printDijkstraDistances(graph, results);
+
+    fprintf(stdout, "\n");
+
+    // TODO: more ways
+    printDijkstraPath(graph, results, end_position);
+
   cleanParams(params);
 
   return ecode;

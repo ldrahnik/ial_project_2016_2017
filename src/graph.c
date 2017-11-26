@@ -59,6 +59,15 @@ int getPositionOfVertice(TGraph graph, char* vertice) {
  */
 char** parseInputToGraphRoute(char* input) {
   char ** res = NULL;
+
+  // replace new line etc. with space
+  for (char* p = input; p = strchr(p, '\r'); ++p) {
+    *p = ' ';
+  }
+  for (char* p = input; p = strchr(p, '\n'); ++p) {
+    *p = ' ';
+  }
+
   char *  p = strtok(input, " ");
   int n_spaces = 0, i = 0;
 

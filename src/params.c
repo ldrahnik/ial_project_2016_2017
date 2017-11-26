@@ -56,13 +56,13 @@ TParams getParams(int argc, char *argv[]) {
           fseek(file, 0, SEEK_END);  // TODO: error check
           length = ftell(file); // TODO: error check
           fseek(file, 0, SEEK_SET); // TODO: error check
-          params.input = malloc(length - 2);  // TODO: refactor length - 2 chars (CLRF)
+          params.input = malloc(length);
           if(params.input  == NULL) {
             params.ecode = EALLOC;
             return params;
           }
           if(params.input ) {
-            fread(params.input , 1, length - 2, file);  // TODO: error check, // TODO: refactor length - 2 chars (CLRF)
+            fread(params.input, 1, length, file);  // TODO: error check
           }
           fclose(file);
         } else {
