@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 
   // get graph
   TGraph graph = getGraph(params);
-  if(params.ecode != EOK) {
+  if(graph.ecode != EOK) {
     cleanParams(params);
     return params.ecode;
   }
