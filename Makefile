@@ -21,7 +21,7 @@ $(PROJECT_NAME): $(PROJECT_SOURCES) $(PROJECT_HEADERS)
 ############################################
 
 TAR_NAME = xtucko00
-TAR_FILES = Makefile $(PROJECT_DOC) $(PROJECT_SOURCES)
+TAR_FILES = Makefile $(PROJECT_DOC) $(PROJECT_SOURCES) $(PROJECT_HEADERS)
 
 zip:
 	tar -cvzf $(TAR_NAME).zip $(TAR_FILES)
