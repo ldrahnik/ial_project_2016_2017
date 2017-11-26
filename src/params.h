@@ -18,7 +18,7 @@ typedef struct params {
                                         // format unrated: vertice0 -> vertice1 -> vertice2 -> vertice3
   int contains_negative_edge;           // some algorithm does not support negative edge
   int is_graph_rated;                   // program take care about numbers
-  int is_graph_oriented;                // program take care about +/-
+  int is_graph_oriented;                // program take care about direction
   char* vertice_start;
   char* vertice_end;
 } TParams;
