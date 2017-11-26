@@ -47,11 +47,6 @@ TResults floydWarshall(TGraph graph) {
           if(i != j && results.distances[i][j] == 0) {
             results.predecessors[i][j] = INT_MIN;
           }
-          /*if (i == j) {
-            results.predecessors[i][j] = 0;
-          } else {
-            results.predecessors[i][j] = INT_MIN;
-          }*/
         }
     }
 
@@ -77,18 +72,19 @@ TResults floydWarshall(TGraph graph) {
     return results;
 }
 
-void printPath(TGraph graph, TResults results, int start_vertice, int end_vertice) {
+void printFloydWarshallPath(TGraph graph, TResults results, int start_vertice, int end_vertice) {
   if (start_vertice == end_vertice) {
     fprintf(stdout, "-> %s ", graph.vertice[start_vertice].name);
   } else if (results.predecessors[start_vertice][end_vertice] == INT_MIN) {
     fprintf(stdout, "%s -> %s", graph.vertice[start_vertice].name, graph.vertice[end_vertice].name);
   } else {
-    printPath(graph, results, start_vertice, results.predecessors[start_vertice][end_vertice]);
+    printFloydWarshallPath(graph, results, start_vertice, results.predecessors[start_vertice][end_vertice]);
     fprintf(stdout, "-> %s ", graph.vertice[end_vertice].name);
   }
 }
 
-void printDistances(TGraph graph, TResults results) {
+void printFloydWarshallDistances(TGraph graph, TResults results) {
+  printf("\n");
   int i, j;
   for (i = 0; i < graph.vertices_count; i++) {
     for (j = 0; j < graph.vertices_count; j++) {

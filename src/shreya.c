@@ -60,30 +60,47 @@ int main(int argc, char *argv[]) {
   int start_position = getPositionOfVertice(graph, params.vertice_start);
   int end_position = getPositionOfVertice(graph, params.vertice_end);
 
-  // contains negative edge (bellmann-ford algorithm)
-  if(graph.contains_negative_edge) {
+    fprintf(stdout, "\nFloyd Warshall:\n");
 
     TResults results = floydWarshall(graph);
 
     if(results.ecode != EOK) {
       fprintf(stderr, "Alloc problem.\n");
-      cleanResults(results);
+      cleanResults(graph, results);
       return results.ecode;
     }
 
-    printDistances(graph, results);
+    printFloydWarshallDistances(graph, results);
 
     fprintf(stdout, "\n");
 
     // TODO: more ways
-    printPath(graph, results, start_position, end_position);
+    printFloydWarshallPath(graph, results, start_position, end_position);
 
     fprintf(stdout, "\n");
 
-    cleanResults(results);
-  } else {
-    // TODO:
-  }
+    cleanResults(graph, results);
+
+    fprintf(stdout, "\nBellman Ford:\n");
+
+    results = bellmanFord(graph, start_position);
+
+    if(results.ecode != EOK) {
+      fprintf(stderr, "Alloc problem.\n");
+      cleanResults(graph, results);
+      return results.ecode;
+    }
+
+    printBellmanFordDistances(graph, results);
+
+    fprintf(stdout, "\n");
+
+    // TODO: more ways
+    printBellmanFordPath(graph, results, end_position);
+
+    fprintf(stdout, "\n");
+
+    cleanResults(graph, results);
 
   cleanParams(params);
 

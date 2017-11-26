@@ -8,12 +8,14 @@
 #ifndef _results_H_
 #define _results_H_
 
+#include "graph.h"
+
 typedef struct results {
   int** distances;
   int** predecessors;
   int ecode;
 } TResults;
 
-void cleanResults(TResults results);
+void cleanResults(TGraph graph, TResults results);
 
 #endif

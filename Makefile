@@ -9,7 +9,7 @@ PROJECT_SOURCES  		= src/*.c
 PROJECT_HEADERS			= src/*.h
 
 CC              		= gcc
-CFLAGS 							= -std=gnu99 -Wextra -Werror -pedantic -g -Wall
+CFLAGS 							= -std=gnu99 -Wextra -Werror -pedantic -g # -Wall
 
 ###########################################
 

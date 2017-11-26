@@ -8,11 +8,16 @@
 #include "results.h"
 
 #include <stdlib.h>
- 
+
 /**
  * Clean the mess.
  */
-void cleanResults(TResults results) {
+void cleanResults(TGraph graph, TResults results) {
+  int i;
+  for (i = 0; i < graph.vertices_count; i++) {
+    free(results.distances[i]);
+    free(results.predecessors[i]);
+  }
   free(results.distances);
   free(results.predecessors);
 }

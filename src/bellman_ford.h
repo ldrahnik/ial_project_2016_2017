@@ -5,8 +5,8 @@
  * Email:						  <xtucko00@stud.fit.vutbr.cz>, <xtussu00@stud.fit.vutbr.cz>, <xlazno00@stud.fit.vutbr.cz>, <xdrahn00@stud.fit.vutbr.cz>
  */
 
-#ifndef _floyd_warshall_H_
-#define _floyd_warshall_H_
+#ifndef _bellman_ford_H_
+#define _bellman_ford_H_
 
 #include "graph.h"
 #include "results.h"
@@ -14,8 +14,8 @@
 #include <stdlib.h>
 #include <limits.h>
 
-TResults floydWarshall(TGraph graph);
-void printFloydWarshallPath(TGraph graph, TResults results, int start_vertice, int end_vertice);
-void printFloydWarshallDistances(TGraph graph, TResults results);
+TResults bellmanFord(TGraph graph, int vertice_id);
+void printBellmanFordPath(TGraph graph, TResults results, int end_vertice);
+void printBellmanFordDistances(TGraph graph, TResults results);
 
 #endif
