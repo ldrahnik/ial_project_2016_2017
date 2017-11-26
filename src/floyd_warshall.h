@@ -16,6 +16,6 @@
 
 TResults floydWarshall(TGraph graph);
 void printPath(TGraph graph, TResults results, int i, int j);
-void print_distances(TGraph graph, TResults results);
+void printDistances(TGraph graph, TResults results);
 
 #endif

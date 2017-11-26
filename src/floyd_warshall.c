@@ -88,7 +88,7 @@ void printPath(TGraph graph, TResults results, int start_vertice, int end_vertic
   }
 }
 
-void print_distances(TGraph graph, TResults results) {
+void printDistances(TGraph graph, TResults results) {
   int i, j;
   for (i = 0; i < graph.vertices_count; i++) {
     for (j = 0; j < graph.vertices_count; j++) {

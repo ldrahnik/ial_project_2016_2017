@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
       return results.ecode;
     }
 
-    print_distances(graph, results);
+    printDistances(graph, results);
 
     fprintf(stdout, "\n");
 
