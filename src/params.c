@@ -53,16 +53,26 @@ TParams getParams(int argc, char *argv[]) {
       case 'i':
         file = fopen(optarg,"rb");
         if(file != NULL) {
-          fseek(file, 0, SEEK_END);  // TODO: error check
-          length = ftell(file); // TODO: error check
-          fseek(file, 0, SEEK_SET); // TODO: error check
+          if(fseek(file, 0, SEEK_END) != 0) {
+            params.ecode = EFILE;
+            return params;
+          }
+          length = ftell(file);
+          if(length == -1) {
+            params.ecode = EFILE;
+            return params;
+          }
+          if(fseek(file, 0, SEEK_SET) != 0) {
+            params.ecode = EFILE;
+            return params;
+          }
           params.input = malloc(length);
           if(params.input  == NULL) {
             params.ecode = EALLOC;
             return params;
           }
           if(params.input ) {
-            fread(params.input, 1, length, file);  // TODO: error check
+            fread(params.input, 1, length, file);
           }
           fclose(file);
         } else {

@@ -18,6 +18,7 @@ enum ecodes {
   EUNRATED_GRAPH = 5,    // spec. unrated graph: min length
   EGRAPH = 6,            // graph common
   EALLOC = 7,            // alloc problem
+  EFILE = 8,             // problem with the opening file (function fseek, )
 };
 
 #endif
