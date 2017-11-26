@@ -247,6 +247,14 @@ TGraph getGraph(TParams params) {
   graph.is_graph_rated = params.is_graph_rated ? graph.is_graph_rated : 0;
   printf("\nDEBUG: graph is rated: %i\n\n", graph.is_graph_rated);
 
+  // if is graph not rated (or we want to be non rated, set up all edges as 1)
+  if(!graph.is_graph_rated) {
+    int i;
+    for(i = 0; i < graph.edges_count; i++) {
+      graph.edge[i].weight = 1;
+    }
+  }
+
   // is there negative edge?
   printf("\nDEBUG: graph contains negative edge: %i\n\n", graph.contains_negative_edge);
 

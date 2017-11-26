@@ -19,6 +19,7 @@ enum ecodes {
   EGRAPH = 6,            // graph common
   EALLOC = 7,            // alloc problem
   EFILE = 8,             // problem with the opening file (function fseek, )
+  ENEGATIVE_CYCLE = 9,   // specific bellman ford algoritm error (detection of negative cycle which algoritm can not handle)
 };
 
 #endif

@@ -15,17 +15,14 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
     .predecessors = malloc(graph.vertices_count * sizeof(int *)),
     .ecode = EOK,
   };
-
   if(results.distances == NULL) {
     results.ecode = EALLOC;
     return results;
   }
-
   if(results.predecessors == NULL) {
     results.ecode = EALLOC;
     return results;
   }
-
   int a, v, negative_cycle = 0;
 
   // all distances start infinite
@@ -47,12 +44,9 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
       int dest_id = graph.edge[a].dest_id;
       int weight = graph.edge[a].weight;
 
-      //printf("\nweight: %i\n", weight);
-      //printf("\nsrc_id [ %i ] : %i\n", src_id, results.distances[0][src_id]);
       if (results.distances[0][src_id] != INT_MAX && results.distances[0][src_id] + weight < results.distances[0][dest_id]) {
         results.distances[0][dest_id] = results.distances[0][src_id] + weight;
         results.predecessors[0][dest_id] = src_id;
-        //printf("\ndistances[dest_id: %i]: %i\n", dest_id, results.distances[0][dest_id]);
       }
     }
   }
@@ -69,8 +63,7 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
 
   // negative cycle
   if(negative_cycle) {
-    cleanResults(graph, results);
-    results.distances = NULL;
+    results.ecode = ENEGATIVE_CYCLE;
   }
 
   return results;

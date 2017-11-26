@@ -60,53 +60,64 @@ int main(int argc, char *argv[]) {
   int start_position = getPositionOfVertice(graph, params.vertice_start);
   int end_position = getPositionOfVertice(graph, params.vertice_end);
 
-  fprintf(stdout, "\nFloyd Warshall:\n");
+  // Floyd Warshall and Bellman Ford only rated graph
+  if(graph.is_graph_oriented) {
+    fprintf(stdout, "\nFloyd Warshall:\n");
 
-  TResults results = floydWarshall(graph);
+    TResults results = floydWarshall(graph);
 
-  if(results.ecode != EOK) {
-    fprintf(stderr, "Alloc problem.\n");
+    if(results.ecode != EOK) {
+      fprintf(stderr, "Alloc problem.\n");
+      cleanResults(graph, results);
+      return results.ecode;
+    }
+
+    printFloydWarshallDistances(graph, results);
+
+    fprintf(stdout, "\n");
+
+    // TODO: more ways
+    printFloydWarshallPath(graph, results, start_position, end_position);
+
+    fprintf(stdout, "\n");
+
     cleanResults(graph, results);
-    return results.ecode;
   }
 
-  printFloydWarshallDistances(graph, results);
+  // Floyd Warshall and Bellman Ford only rated graph
+  if(graph.is_graph_oriented) {
+    fprintf(stdout, "\nBellman Ford:\n");
 
-  fprintf(stdout, "\n");
+    TResults results = bellmanFord(graph, start_position);
 
-  // TODO: more ways
-  printFloydWarshallPath(graph, results, start_position, end_position);
+    if(results.ecode != EOK) {
+      if(results.ecode == ENEGATIVE_CYCLE) {
+        fprintf(stderr, "Negative cycle detection which bellman ford can not handle.\n");
+      }
+      if(results.ecode == EALLOC) {
+        fprintf(stderr, "Alloc problem.\n");
+      }
+      cleanResults(graph, results);
+      return results.ecode;
+    }
 
-  fprintf(stdout, "\n");
+    printBellmanFordDistances(graph, results);
 
-  cleanResults(graph, results);
+    fprintf(stdout, "\n");
 
-  fprintf(stdout, "\nBellman Ford:\n");
+    // TODO: more ways
+    printBellmanFordPath(graph, results, end_position);
 
-  results = bellmanFord(graph, start_position);
+    fprintf(stdout, "\n");
 
-  if(results.ecode != EOK) {
-    fprintf(stderr, "Alloc problem.\n");
     cleanResults(graph, results);
-    return results.ecode;
   }
 
-  printBellmanFordDistances(graph, results);
-
-  fprintf(stdout, "\n");
-
-  // TODO: more ways
-  printBellmanFordPath(graph, results, end_position);
-
-  fprintf(stdout, "\n");
-
-  cleanResults(graph, results);
-
-  // Dijkstra does not handle negative edge
-  if(!graph.contains_negative_edge) {
+  // Dijkstra does not handle negative edge and orientation
+  if(!graph.contains_negative_edge && !graph.is_graph_oriented) {
     fprintf(stdout, "\nDijkstra:\n");
 
-    results = dijkstra(graph, start_position);
+    TResults results = dijkstra(graph, start_position);
 
     if(results.ecode != EOK) {
       fprintf(stderr, "Alloc problem.\n");

@@ -30,9 +30,9 @@ TResults dijkstra(TGraph graph, int vertice_id) {
   }
 
   // All distances start infinite and all vertices start unvisited
-  results.distances[0] = malloc(graph.vertices_count * sizeof(int));
-  results.predecessors[0] = malloc(graph.vertices_count * sizeof(int));
   for (i = 0; i < graph.vertices_count; i++) {
+    results.distances[i] = malloc(graph.vertices_count * sizeof(int));
+    results.predecessors[i] = malloc(graph.vertices_count * sizeof(int));
     results.distances[0][i] = INT_MAX;
     results.predecessors[0][i] = INT_MIN;
     unvisited[i] = 1;

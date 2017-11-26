@@ -29,25 +29,20 @@ TResults floydWarshall(TGraph graph) {
 
     // initialise the distance table */
     for (i = 0; i < graph.vertices_count; i++) {
-        results.distances[i] = malloc(graph.vertices_count * sizeof(int));
-        for (j = 0; j < graph.vertices_count; j++) {
-            if (i == j) {
-                results.distances[i][j] = 0;
-            } else {
-                results.distances[i][j] = INT_MAX;
-            }
+      results.distances[i] = malloc(graph.vertices_count * sizeof(int));
+      results.predecessors[i] = malloc(graph.vertices_count * sizeof(int));
+      for (j = 0; j < graph.vertices_count; j++) {
+        results.predecessors[i][j] = i;
+        if (i == j) {
+            results.distances[i][j] = 0;
+        } else {
+            results.distances[i][j] = INT_MAX;
         }
-    }
-
-    // initialise the predecessors table */
-    for (i = 0; i < graph.vertices_count; i++) {
-        results.predecessors[i] = malloc(graph.vertices_count * sizeof(int));
-        for (j = 0; j < graph.vertices_count; j++) {
-          results.predecessors[i][j] = i;
-          if(i != j && results.distances[i][j] == 0) {
-            results.predecessors[i][j] = INT_MIN;
-          }
+        results.predecessors[i][j] = i;
+        if(i != j && results.distances[i][j] == 0) {
+          results.predecessors[i][j] = INT_MIN;
         }
+      }
     }
 
     // add the distance for each arc
