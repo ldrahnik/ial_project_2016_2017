@@ -60,48 +60,50 @@ int main(int argc, char *argv[]) {
   int start_position = getPositionOfVertice(graph, params.vertice_start);
   int end_position = getPositionOfVertice(graph, params.vertice_end);
 
-    fprintf(stdout, "\nFloyd Warshall:\n");
+  fprintf(stdout, "\nFloyd Warshall:\n");
 
-    TResults results = floydWarshall(graph);
+  TResults results = floydWarshall(graph);
 
-    if(results.ecode != EOK) {
-      fprintf(stderr, "Alloc problem.\n");
-      cleanResults(graph, results);
-      return results.ecode;
-    }
-
-    printFloydWarshallDistances(graph, results);
-
-    fprintf(stdout, "\n");
-
-    // TODO: more ways
-    printFloydWarshallPath(graph, results, start_position, end_position);
-
-    fprintf(stdout, "\n");
-
+  if(results.ecode != EOK) {
+    fprintf(stderr, "Alloc problem.\n");
     cleanResults(graph, results);
+    return results.ecode;
+  }
 
-    fprintf(stdout, "\nBellman Ford:\n");
+  printFloydWarshallDistances(graph, results);
 
-    results = bellmanFord(graph, start_position);
+  fprintf(stdout, "\n");
 
-    if(results.ecode != EOK) {
-      fprintf(stderr, "Alloc problem.\n");
-      cleanResults(graph, results);
-      return results.ecode;
-    }
+  // TODO: more ways
+  printFloydWarshallPath(graph, results, start_position, end_position);
 
-    printBellmanFordDistances(graph, results);
+  fprintf(stdout, "\n");
 
-    fprintf(stdout, "\n");
+  cleanResults(graph, results);
 
-    // TODO: more ways
-    printBellmanFordPath(graph, results, end_position);
+  fprintf(stdout, "\nBellman Ford:\n");
 
-    fprintf(stdout, "\n");
+  results = bellmanFord(graph, start_position);
 
+  if(results.ecode != EOK) {
+    fprintf(stderr, "Alloc problem.\n");
     cleanResults(graph, results);
+    return results.ecode;
+  }
 
+  printBellmanFordDistances(graph, results);
+
+  fprintf(stdout, "\n");
+
+  // TODO: more ways
+  printBellmanFordPath(graph, results, end_position);
+
+  fprintf(stdout, "\n");
+
+  cleanResults(graph, results);
+
+  // Dijkstra does not handle negative edge
+  if(!graph.contains_negative_edge) {
     fprintf(stdout, "\nDijkstra:\n");
 
     results = dijkstra(graph, start_position);
@@ -120,6 +122,9 @@ int main(int argc, char *argv[]) {
     printDijkstraPath(graph, results, end_position);
 
     fprintf(stdout, "\n");
+
+    cleanResults(graph, results);
+  }
 
   cleanParams(params);
 
