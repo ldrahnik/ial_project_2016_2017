@@ -87,20 +87,20 @@ void printBellmanFordPredecessors(TGraph graph, TResults results) {
 }
 
 void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path) {
-  if(end_vertice != INT_MIN) {
+  if(start_vertice != INT_MIN) {
     char* pathNew = (char *)malloc(100 * sizeof(char));
     strcpy(pathNew, path);
     strcat(pathNew, "-> ");
-    strcat(pathNew, graph.vertice[end_vertice].name);
+    strcat(pathNew, graph.vertice[start_vertice].name);
     strcat(pathNew, " ");
     if(end_vertice == start_vertice) {
       fprintf(stdout, "%s\n", pathNew);
     }
     int a;
     for(a = 0; a < graph.vertices_count; a++) {
-      int isEdgeValid = results.predecessors[end_vertice][a];
+      int isEdgeValid = results.predecessors[a][start_vertice];
       if(isEdgeValid) {
-        printBellmanFordPath(graph, results, a, start_vertice, pathNew);
+        printBellmanFordPath(graph, results, end_vertice, a, pathNew);
       }
     }
     free(pathNew);
