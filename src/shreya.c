@@ -105,8 +105,13 @@ int main(int argc, char *argv[]) {
 
     fprintf(stdout, "\n");
 
-    // TODO: more ways
-    printBellmanFordPath(graph, results, end_position);
+    printBellmanFordPredecessors(graph, results);
+
+    fprintf(stdout, "\n");
+    
+    char* path = (char *)malloc(100 * sizeof(char));
+    strcpy(path, "");
+    printBellmanFordPath(graph, results, end_position, start_position, path);
 
     fprintf(stdout, "\n");
 

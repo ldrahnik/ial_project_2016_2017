@@ -8,7 +8,7 @@
 #include "bellman_ford.h"
 
 TResults bellmanFord(TGraph graph, int vertice_id) {
-  int i;
+  int i, a, v, negative_cycle = 0;
 
   TResults results = {
     .distances = malloc(graph.vertices_count * sizeof(int *)),
@@ -23,14 +23,16 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
     results.ecode = EALLOC;
     return results;
   }
-  int a, v, negative_cycle = 0;
 
   // all distances start infinite
   for(i = 0; i < graph.vertices_count; i++) {
     results.distances[i] = malloc(graph.vertices_count * sizeof(int));
     results.predecessors[i] = malloc(graph.vertices_count * sizeof(int));
     results.distances[0][i] = INT_MAX;
-    results.predecessors[0][i] = INT_MIN;
+
+    for(v = 0; v < graph.vertices_count; v++) {
+      results.predecessors[i][v] = 0;
+    }
   }
 
   // distance to starting vertice is 0
@@ -46,7 +48,10 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
 
       if (results.distances[0][src_id] != INT_MAX && results.distances[0][src_id] + weight < results.distances[0][dest_id]) {
         results.distances[0][dest_id] = results.distances[0][src_id] + weight;
-        results.predecessors[0][dest_id] = src_id;
+      }
+
+      if (results.distances[0][src_id] != INT_MAX && results.distances[0][src_id] + weight <= results.distances[0][dest_id]) {
+        results.predecessors[dest_id][src_id] = 1;
       }
     }
   }
@@ -69,13 +74,39 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
   return results;
 }
 
-void printBellmanFordPath(TGraph graph, TResults results, int end_vertice) {
-  if(end_vertice != INT_MIN) {
-    int positionId = results.predecessors[0][end_vertice];
-    printBellmanFordPath(graph, results, positionId);
-    fprintf(stdout, "-> %s ", graph.vertice[end_vertice].name);
+void printBellmanFordPredecessors(TGraph graph, TResults results) {
+  int v, a;
+  for(v = 0; v < graph.vertices_count; v++) {
+    for(a = 0; a < graph.vertices_count; a++) {
+      int isEdgeValid = results.predecessors[v][a];
+      if(isEdgeValid) {
+        printf("dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
+      }
+    }
   }
 }
+
+void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path) {
+  if(end_vertice != INT_MIN) {
+    char* pathNew = (char *)malloc(100 * sizeof(char));
+    strcpy(pathNew, path);
+    strcat(pathNew, "-> ");
+    strcat(pathNew, graph.vertice[end_vertice].name);
+    strcat(pathNew, " ");
+    if(end_vertice == start_vertice) {
+      fprintf(stdout, "%s\n", pathNew);
+    }
+    int a;
+    for(a = 0; a < graph.vertices_count; a++) {
+      int isEdgeValid = results.predecessors[end_vertice][a];
+      if(isEdgeValid) {
+        printBellmanFordPath(graph, results, a, start_vertice, pathNew);
+      }
+    }
+    free(pathNew);
+  }
+}
+
 
 void printBellmanFordDistances(TGraph graph, TResults results) {
   int i;
