@@ -83,18 +83,13 @@ void printDijkstraPredecessors(TGraph graph, TResults results) {
     for(a = 0; a < graph.vertices_count; a++) {
       int isEdgeValid = results.predecessors[v][a];
       if(isEdgeValid) {
-        printf("dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
+        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
       }
     }
   }
 }
 
 void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path) {
-  /*if(end_vertice != INT_MIN) {
-    int positionId = results.predecessors[0][end_vertice];
-    printDijkstraPath(graph, results, positionId);
-    fprintf(stdout, "-> %s ", graph.vertice[end_vertice].name);
-  }*/
   if(start_vertice != INT_MIN) {
     char* pathNew = (char *)malloc(100 * sizeof(char));
     strcpy(pathNew, path);
@@ -118,6 +113,6 @@ void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int star
 void printDijkstraDistances(TGraph graph, TResults results) {
   int i;
   for (i = 0; i < graph.vertices_count; i++) {
-    printf("%u: %u\n", i, results.distances[0][i]);
+    fprintf(stderr, "DEBUG: %u: %u\n", i, results.distances[0][i]);
   }
 }

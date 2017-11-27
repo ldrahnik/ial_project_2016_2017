@@ -86,15 +86,15 @@ TParams getParams(int argc, char *argv[]) {
         break;
       case '?':
         if(optopt == 'i') {
-          fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+          fprintf(stderr, "Option -%c requires an argument.\n", optopt);
         } else if(isprint (optopt)) {
-          fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+          fprintf(stderr, "Unknown option `-%c'.\n", optopt);
         } else {
           fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
         }
         params.ecode = EOPT;
       default:
-        fprintf (stderr, "At least one vertice is required.\n");
+        fprintf(stderr, "At least one vertice is required.\n");
         params.ecode = EOPT;
     }
   }

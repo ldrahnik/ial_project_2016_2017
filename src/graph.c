@@ -92,8 +92,8 @@ char** parseInputToGraphRoute(char* input) {
 
   // DEBUG:
   for(i = 0; i < (n_spaces+1); ++i)
-    printf("DEBUG: res[%d] = %s\n", i, res[i]);
-  printf("\n");
+    fprintf(stderr, "DEBUG: res[%d] = %s\n", i, res[i]);
+  fprintf(stderr, "\n");
 
   return res;
 }
@@ -200,14 +200,14 @@ TGraph stepByStepGraphRoute(char** graph_route) {
   }
   int y;
   for(y = 0; y < graph.vertices_count; y++) {
-    printf("\nDEBUG: %i %s\n", y, graph.vertice[y].name);
+    fprintf(stderr, "\nDEBUG: %i %s\n", y, graph.vertice[y].name);
   }
   for(y = 0; y < graph.edges_count; y++) {
-    printf("\nDEBUG: %i src: %s\n", y, graph.edge[y].src);
-    printf("\nDEBUG: %i dest: %s\n", y, graph.edge[y].dest);
-    printf("\nDEBUG: %i src_id: %i\n", y, graph.edge[y].src_id);
-    printf("\nDEBUG: %i dest_id: %i\n", y, graph.edge[y].dest_id);
-    printf("\nDEBUG: %i weight: %i\n", y, graph.edge[y].weight);
+    fprintf(stderr, "\nDEBUG: %i src: %s\n", y, graph.edge[y].src);
+    fprintf(stderr, "\nDEBUG: %i dest: %s\n", y, graph.edge[y].dest);
+    fprintf(stderr, "\nDEBUG: %i src_id: %i\n", y, graph.edge[y].src_id);
+    fprintf(stderr, "\nDEBUG: %i dest_id: %i\n", y, graph.edge[y].dest_id);
+    fprintf(stderr, "\nDEBUG: %i weight: %i\n", y, graph.edge[y].weight);
   }
   if(start_vertice == 1 && edge == 0) {
     fprintf(stderr, "There is missing edge at index %i.\n", i);
@@ -241,11 +241,11 @@ TGraph getGraph(TParams params) {
 
   // is graph oriented
   graph.is_graph_oriented = params.is_graph_oriented ? params.is_graph_oriented : graph.is_graph_oriented;
-  printf("\nDEBUG: graph is oriented: %i\n\n", graph.is_graph_oriented);
+  fprintf(stderr, "\nDEBUG: graph is oriented: %i\n\n", graph.is_graph_oriented);
 
   // is graph rated
   graph.is_graph_rated = params.is_graph_rated ? graph.is_graph_rated : 0;
-  printf("\nDEBUG: graph is rated: %i\n\n", graph.is_graph_rated);
+  fprintf(stderr, "\nDEBUG: graph is rated: %i\n\n", graph.is_graph_rated);
 
   // if is graph not rated (or we want to be non rated, set up all edges as 1)
   if(!graph.is_graph_rated) {
@@ -256,7 +256,7 @@ TGraph getGraph(TParams params) {
   }
 
   // is there negative edge?
-  printf("\nDEBUG: graph contains negative edge: %i\n\n", graph.contains_negative_edge);
+  fprintf(stderr, "\nDEBUG: graph contains negative edge: %i\n\n", graph.contains_negative_edge);
 
   // check correct minimum of graph length
   int length_of_graph_route = 0;

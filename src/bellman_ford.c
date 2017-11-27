@@ -80,7 +80,7 @@ void printBellmanFordPredecessors(TGraph graph, TResults results) {
     for(a = 0; a < graph.vertices_count; a++) {
       int isEdgeValid = results.predecessors[v][a];
       if(isEdgeValid) {
-        printf("dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
+        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
       }
     }
   }
@@ -111,6 +111,6 @@ void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int s
 void printBellmanFordDistances(TGraph graph, TResults results) {
   int i;
   for(i = 0; i < graph.vertices_count; i++) {
-    fprintf(stderr, "%u: %d\n", i, results.distances[0][i]);
+    fprintf(stderr, "DEBUG: %u: %d\n", i, results.distances[0][i]);
   }
 }
