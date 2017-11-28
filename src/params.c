@@ -99,21 +99,12 @@ TParams getParams(int argc, char *argv[]) {
     }
   }
 
-  // default vertices [count of non option args = argc - optind]
-  int non_option_count = argc - optind;
-
-  // there can be only 2 vertices: <vertice_start> <vertice_end>
-  if(non_option_count > 2) {
-    fprintf(stderr, "Too match vertices. Can be there only vertice_start and vertice_end.\n");
+  if(argv[optind] == NULL) {
+    fprintf(stderr, "vertice_start is missing.\n");
     params.ecode = EOPT;
     return params;
   }
-  if(non_option_count < 1) {
-    fprintf(stderr, "vertice_start and vertice_end is missing.\n");
-    params.ecode = EOPT;
-    return params;
-  }
-  if(non_option_count < 2) {
+  if(argv[optind + 1] == NULL) {
     fprintf(stderr, "vertice_end is missing.\n");
     params.ecode = EOPT;
     return params;
