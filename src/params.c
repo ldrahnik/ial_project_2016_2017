@@ -28,6 +28,7 @@ TParams getParams(int argc, char *argv[]) {
     .is_graph_rated = 0,
     .contains_negative_edge = 0,
     .is_graph_oriented = 0,
+    .input = 0,
   };
 
   // don't want getopt() writing to stderr
@@ -45,12 +46,28 @@ TParams getParams(int argc, char *argv[]) {
         params.show_help_message = 1;
         break;
       case 'r':
+        if(params.is_graph_rated) {
+          fprintf(stderr, "Option -r has been already set.\n");
+          params.ecode = EOPT;
+          return params;
+        }
         params.is_graph_rated = 1;
         break;
       case 'o':
+        if(params.is_graph_oriented) {
+          fprintf(stderr, "Option -o has been already set.\n");
+          params.ecode = EOPT;
+          return params;
+        }
         params.is_graph_oriented = 1;
         break;
       case 'i':
+        if(params.input) {
+          fprintf(stderr, "Option -i has been already set.\n");
+          params.ecode = EOPT;
+          return params;
+        }
+
         file = fopen(optarg,"rb");
         if(file != NULL) {
           if(fseek(file, 0, SEEK_END) != 0) {
@@ -93,9 +110,11 @@ TParams getParams(int argc, char *argv[]) {
           fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
         }
         params.ecode = EOPT;
+        break;
       default:
-        fprintf(stderr, "At least one vertice is required.\n");
+        fprintf(stderr, "Options error.\n");
         params.ecode = EOPT;
+        break;
     }
   }
 
