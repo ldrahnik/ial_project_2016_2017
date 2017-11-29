@@ -3,6 +3,7 @@
  * Project: 					IAL: náhradní projekt: 4. Nejkratší cesta v grafu
  * Date:							21.10.2017
  * Email:						  <xtucko00@stud.fit.vutbr.cz>, <xtussu00@stud.fit.vutbr.cz>, <xlazno00@stud.fit.vutbr.cz>, <xdrahn00@stud.fit.vutbr.cz>
+ * File:              Hlavní entry point programu.
  */
 
  /**
@@ -16,7 +17,7 @@
   * Pokud existuje více řešení, nalezněte všechna. Výsledky prezentujte vhodným způsobem. Součástí projektu bude načítání grafů ze souboru a
   * vhodné testovací grafy. V dokumentaci uveďte teoretickou složitost úlohy a porovnejte ji s experimentálními výsledky.
   */
-  
+
 #ifndef _shreya_H_
 #define _shreya_H_
 
