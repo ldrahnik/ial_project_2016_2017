@@ -117,7 +117,11 @@ TParams getParams(int argc, char *argv[]) {
         break;
     }
   }
-
+  if(argv[optind + 2] != NULL) {
+    fprintf(stderr, "Too many parameters.\n");
+    params.ecode = EOPT;
+    return params;
+  }
   if(argv[optind] == NULL) {
     fprintf(stderr, "vertice_start is missing.\n");
     params.ecode = EOPT;
