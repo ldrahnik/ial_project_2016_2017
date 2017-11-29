@@ -5,6 +5,18 @@
  * Email:						  <xtucko00@stud.fit.vutbr.cz>, <xtussu00@stud.fit.vutbr.cz>, <xlazno00@stud.fit.vutbr.cz>, <xdrahn00@stud.fit.vutbr.cz>
  */
 
+/**
+ * Posloupnost vrcholů a hran grafu, kde každá hrana má za koncové vrcholy předchozí a následující vrchol této posloupnosti (pro orientované
+ * grafy musí souhlasit i orientace hrany od předchozího k následujícímu vrcholu posloupnosti) a kde se každá hrana vyskytuje nejvýše jednou,
+ * se nazývá (orientovaná) cesta.
+ *
+ * Vytvořte program pro hledání nejkratší cesty v grafu mezi dvěma zadanými vrcholy. Úlohu řešte pro neorientované i orientované grafy a pro
+ * neohodnocené i ohodnocené grafy. V případě ohodnocených grafů považujte za vzdálenost vrcholů ohodnocení hrany mezi nimi.
+ *
+ * Pokud existuje více řešení, nalezněte všechna. Výsledky prezentujte vhodným způsobem. Součástí projektu bude načítání grafů ze souboru a
+ * vhodné testovací grafy. V dokumentaci uveďte teoretickou složitost úlohy a porovnejte ji s experimentálními výsledky.
+ */
+
 #include "shreya.h"
 
 const char *HELP_MSG = {
