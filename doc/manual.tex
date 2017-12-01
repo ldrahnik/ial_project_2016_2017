@@ -6,15 +6,25 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{url}
-
-\title{4. Nejkratší cesta v grafu\\
-{\bf\large IAL: náhradní projekt}}
-
-\author{Vysoké učení technické v Brně}
-
-\date{Tučková Martina xtucko00@stud.fit.vutbr.cz, Tussupová Kymbat xtussu00@stud.fit.vutbr.cz, Lázňovský David xlazno00@stud.fit.vutbr.cz, Lukáš Drahník xdrahn00@stud.fit.vutbr.cz, 21.11.2017}
+\usepackage{amsmath, amsthm, amssymb}
 
 \begin{document}
+
+\begin{center}
+\textsc{\Huge Fakulta informačních technologií\\
+Vysoké učení technické v~Brně\\}
+
+\LARGE \title{Algoritmy\\
+\textbf{4. Nejkratší cesta v grafu\\}
+Náhradní projekt\\}
+
+
+\hfill \author{Tučková Martina xtucko00@stud.fit.vutbr.cz\\
+ Tussupová Kymbat xtussu00@stud.fit.vutbr.cz\\
+ Lázňovský David xlazno00@stud.fit.vutbr.cz\\
+ Drahník Lukáš xdrahn00@stud.fit.vutbr.cz}
+\end{center}
+
 
 {\let\newpage\relax\maketitle}
 
@@ -23,14 +33,56 @@
 \section*{Obsah}
 \begin{itemize}
   \item Úvod
+  \item Použité algoritmy
+  \begin{enumerate}
+  \item Bellman-Fordův algoritmus
+  \item Dijsktrův algoritmus
+  \item Floyd-Warshallův algoritmus
+  \end{enumerate}
+  \item Závěr
+  \begin{enumerate}
+  \item Metriky
+  \item Použitá literatura
+  \end{enumerate}
 \end{itemize}
 
 \newpage
 
 \section*{Úvod}
-\begin{itemize}
-  \item Foobar
-\end{itemize}
+Tato dokumentace popisuje nalezení nejkratší cesty v grafu pomocí implementace známých algoritmů do předmětu Algoritmy.  Tyto budou popsány samostatně v jednotlivých kapitolách. 
+
+\section{Použité algoritmy}
+\subsection{Bellman-Fordův algoritmus}
+Bellman-Fordův algoritmus slouží pro hledání nejkratších cest v ohodnoceném grafu, kde mohou být záporně ohodnoceny hrany, ale není obsažen cyklus záporné délky – v tomto případě je algoritmus schopen jeho detekce, a to buď pomocí čítače, který ukončí výpočet po překročení maximálního možného počtu iterací algoritmu, anebo přidáním jednoho vnořeného cyklu.
+\par
+Hlavní operací algoritmu je relaxace hran, kde hrají roli dva uzly a mezi nimi vedoucí hrana. Pokud je vzdálenost mezi uzly u a v kratší než dosavadně spočítaná, tak ji přepočteme a opravíme předchůdce uzlu v na u. Tato metoda je využívána i u Dijkstrova algoritmu.
+\par
+Asymptotická složitost je $O(V*E)$.
+
+\subsection{Dijsktrův algoritmus}
+Tento algoritmus byl vymyšlen nizozemským informatikem Edsgerem Dijkstrou v roce 1959. Soustředí se na prohledávání grafu do šířky , kde se vlna šíří v závislosti na vzdálenosti od zdroje.
+\par
+Jeho použití je omezeno na kladné hrany – při záporných není garance nejkratší možné cesty a je výhodnější použít jiné algoritmy; dále je potřeba, aby graf byl ohodnocený – neohodnocený lze však snadno převést. Vstupem by tedy měl být nezáporně ohodnocený graf a počáteční uzel.
+\par
+Lze jej naimplementovat podle prioritní fronty, tedy s asymptotickou časovou složitostí $O(|V|^2+|E|)$ nebo pomocí binární $(O((|E|+|V|)log|V|))$ či Fibonacciho haldy $(O(|E|+|V|log|V|))$.
+
+\subsection{Floyd-Warshallův algoritmus}
+Tento algoritmus si zakládá především na implementační jednoduchosti a je příkladem dynamického programování. Poradí si se záporně ohodnocenými hranami, ale ne se záporným cyklem - proto se pro správnost funkčnosti algoritmu předpokládá, že jej graf neobsahuje.
+\par
+Jeho základem je operace s maticí sousednosti, kterou je ovšem nutno vytvořit. Na diagonále této matice jsou samé nuly, protože vzdálenost z uzlu do stejného uzlu je nula. Na indexu (i,j) je hodnota délky hrany mezi dvěma uzly (i,j), v ostatních indexech je nekonečno. Jeho použití se vyplatí v hustých grafech, ale naopak v řídkých grafech s nezáporně ohodnocenými hranami je výhodnější použít Dijkstrův algoritmus.
+\par
+Asymptotická časová složitost je $O(|V|^3)$.
+
+\section{Závěr}
+Projekt byl zajímavý a naučili jsme se díky němu používat vhodné algoritmy a poznávat jejich výhody a nevýhody. Potřebná látka byla probírána okrajově až k termínu odevzdání projektu, ale nebyl problém si vše zjistit sami a vypracovat zadání díky samostudiu.
+
+\subsection{Metriky}
+Počet souborů: // TODO \\
+Počet řádků zdrojového kódu: // TODO
+
+\subsection{Použitá literatura}
+
+
 
 \nocite{*}
 
