@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
   }
 
   // Dijkstra does not handle negative edge and orientation
-  if(!graph.contains_negative_edge && !graph.is_graph_oriented) {
+  if(!graph.is_graph_rated || !graph.contains_negative_edge) && !graph.is_graph_oriented) {
     fprintf(stdout, "\nDijkstra:\n");
 
     TResults results = dijkstra(graph, start_position);
