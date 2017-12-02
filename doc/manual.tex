@@ -41,6 +41,8 @@ Náhradní projekt\\}
   \end{enumerate}
   \item Závěr
   \begin{enumerate}
+  \item Příklad použití
+  \item Omezení programu
   \item Metriky
   \item Použitá literatura
   \end{enumerate}
@@ -49,7 +51,7 @@ Náhradní projekt\\}
 \newpage
 
 \section*{Úvod}
-Tato dokumentace popisuje nalezení nejkratší cesty v grafu pomocí implementace známých algoritmů do předmětu Algoritmy.  Tyto budou popsány samostatně v jednotlivých kapitolách. 
+Tato dokumentace popisuje nalezení nejkratší cesty v grafu pomocí implementace známých algoritmů do předmětu Algoritmy.  Tyto budou popsány samostatně v jednotlivých kapitolách.
 
 \section{Použité algoritmy}
 \subsection{Bellman-Fordův algoritmus}
@@ -76,9 +78,46 @@ Asymptotická časová složitost je $O(|V|^3)$.
 \section{Závěr}
 Projekt byl zajímavý a naučili jsme se díky němu používat vhodné algoritmy a poznávat jejich výhody a nevýhody. Potřebná látka byla probírána okrajově až k termínu odevzdání projektu, ale nebyl problém si vše zjistit sami a vypracovat zadání díky samostudiu.
 
+\newpage
+
+\subsection{Příklad použití}
+
+\lstset{language=Bash}
+\begin{lstlisting}[frame=single,breaklines]
+  ./shreya -i tests/test06 A D 2> /dev/null
+
+  Dijkstra:
+
+
+  -> A -> B -> D
+  -> A -> C -> D
+
+\end{lstlisting}
+
+\lstset{language=Bash}
+\begin{lstlisting}[frame=single,breaklines]
+  ./shreya -i tests/test07 A B -o -r 2> /dev/null
+  Floyd Warshall:
+
+  -> A -> C -> F -> B
+
+  Bellman Ford:
+
+  -> A -> C -> F -> E -> B
+  -> A -> C -> F -> B
+  -> A -> C -> E -> B
+  -> A -> D -> F -> E -> B
+  -> A -> D -> F -> B
+\end{lstlisting}
+
+\subsection{Omezení programu}
+Název vrcholu nesmí být číslo. Floyd-Warshallův algoritmus nachází pouze jednu z více nejkratších cest (pokud více existuje) a to podle pořadí hran zadaného grafu na vstupu.
+
 \subsection{Metriky}
-Počet souborů: // TODO \\
-Počet řádků zdrojového kódu: // TODO
+
+Kód programu je rozdělený do modulů. Každý modul obsahuje hlavičkový soubor s definicemi metod. \newline\newline
+Počet souborů: 15 \newline
+Počet řádků zdrojového kódu: 1211
 
 \subsection{Použitá literatura}
 
