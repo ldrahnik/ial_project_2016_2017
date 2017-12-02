@@ -22,11 +22,12 @@
 #include "shreya.h"
 
 const char *HELP_MSG = {
-  "The shorted path in graph between two vertices.\n\n"
+  "The shorted path in graph between two vertices. If the type of graph would be not explicitly defined by options are automatically defined from graph.\n\n"
   "Example of usage:\n\n"
-  "./shreya [-h ] [-r ] [-i <graph_path as string>] <vertice_start> <vertice_end>\n\n"
+  "./shreya [-h ] [-r|-nr] [-o|-no] [-i <graph_path as string>] <vertice_start> <vertice_end>\n\n"
   "Options:\n"
   "-r -- rated graph\n"
+  "-u -- non-rated graph\n"
   "-o -- oriented graph\n"
   "-h -- show help message\n"
   "-i -- string contains graph_path (for example rated graph vertice0 -> 4 -> vertice1)\n"
@@ -134,7 +135,7 @@ int main(int argc, char *argv[]) {
   }
 
   // Dijkstra does not handle negative edge and orientation
-  if(!graph.is_graph_rated || !graph.contains_negative_edge) && !graph.is_graph_oriented) {
+  if(!graph.contains_negative_edge && !graph.is_graph_oriented) {
     fprintf(stdout, "\nDijkstra:\n");
 
     TResults results = dijkstra(graph, start_position);

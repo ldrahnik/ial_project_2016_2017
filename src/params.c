@@ -26,8 +26,7 @@ TParams getParams(int argc, char *argv[]) {
   TParams params = {
   	.show_help_message = 0,
     .ecode = EOK,
-    .is_graph_rated = 0,
-    .contains_negative_edge = 0,
+    .is_graph_rated = -1,
     .is_graph_oriented = 0,
     .input = 0,
   };
@@ -41,21 +40,29 @@ TParams getParams(int argc, char *argv[]) {
 
   // getopt
   int c;
-  while ((c = getopt(argc, argv, "orhi:")) != -1) {
+  while ((c = getopt(argc, argv, "uorhi:")) != -1) {
     switch (c) {
       case 'h':
         params.show_help_message = 1;
         break;
       case 'r':
-        if(params.is_graph_rated) {
+        if(params.is_graph_rated != -1) {
           fprintf(stderr, "Option -r has been already set.\n");
           params.ecode = EOPT;
           return params;
         }
         params.is_graph_rated = 1;
         break;
+      case 'u':
+          if(params.is_graph_rated != -1) {
+            fprintf(stderr, "Option -nr has been already set.\n");
+            params.ecode = EOPT;
+            return params;
+          }
+          params.is_graph_rated = 0;
+          break;
       case 'o':
-        if(params.is_graph_oriented) {
+        if(params.is_graph_oriented != -1) {
           fprintf(stderr, "Option -o has been already set.\n");
           params.ecode = EOPT;
           return params;

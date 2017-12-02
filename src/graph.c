@@ -117,6 +117,7 @@ TGraph stepByStepGraphRoute(char** graph_route) {
   int start_vertice = 0;
   int edge = 0;
   int end_vertice = 0;
+  int previous_edge_weight = INT_MAX;
 
   while(graph_route[i]) {
 
@@ -135,12 +136,16 @@ TGraph stepByStepGraphRoute(char** graph_route) {
       if(isNumberEdge(graph_route[i])) {
         fprintf(stderr, "DEBUG: edge as number at index: %i\n", i);
 
-        // check if is rated_graph
-        graph.is_graph_rated = 1;
-
         // negative check
         if(atoi(graph_route[i]) < 0) {
           graph.contains_negative_edge = 1;
+        }
+
+        // check if is rated_graph
+        if(previous_edge_weight == INT_MAX) {
+          previous_edge_weight = atoi(graph_route[i]);
+        } else if(previous_edge_weight != atoi(graph_route[i])) {
+          graph.is_graph_rated = 1;
         }
       } else if (isNonRatedEdge(graph_route[i])) {
         fprintf(stderr, "DEBUG: edge +/- at index: %i\n", i);
@@ -174,7 +179,11 @@ TGraph stepByStepGraphRoute(char** graph_route) {
         end_vertice = 0;
 
         // check if is rated_graph
-        graph.is_graph_rated = 1;
+        if(previous_edge_weight == INT_MAX) {
+          previous_edge_weight = atoi(graph_route[i]);
+        } else if(previous_edge_weight != atoi(graph_route[i])) {
+          graph.is_graph_rated = 1;
+        }
 
         // negative check
         if(atoi(graph_route[i]) < 0) {
@@ -241,11 +250,11 @@ TGraph getGraph(TParams params) {
   }
 
   // is graph oriented
-  graph.is_graph_oriented = params.is_graph_oriented ? params.is_graph_oriented : graph.is_graph_oriented;
+  graph.is_graph_oriented = params.is_graph_oriented;
   fprintf(stderr, "\nDEBUG: graph is oriented: %i\n\n", graph.is_graph_oriented);
 
   // is graph rated
-  graph.is_graph_rated = params.is_graph_rated ? graph.is_graph_rated : 0;
+  graph.is_graph_rated = params.is_graph_rated != -1 ? params.is_graph_rated : graph.is_graph_rated;
   fprintf(stderr, "\nDEBUG: graph is rated: %i\n\n", graph.is_graph_rated);
 
   // if is graph not rated (or we want to be non rated, set up all edges as 1)
@@ -254,6 +263,7 @@ TGraph getGraph(TParams params) {
     for(i = 0; i < graph.edges_count; i++) {
       graph.edge[i].weight = 1;
     }
+    graph.contains_negative_edge = 0;
   }
 
   // is there negative edge?

@@ -112,6 +112,7 @@ void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int star
 }
 
 void printDijkstraDistances(TGraph graph, TResults results) {
+  fprintf(stderr, "\n");
   int i;
   for (i = 0; i < graph.vertices_count; i++) {
     fprintf(stderr, "DEBUG: %u: %u\n", i, results.distances[0][i]);

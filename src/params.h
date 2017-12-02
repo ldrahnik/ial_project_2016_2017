@@ -16,7 +16,7 @@ typedef struct params {
   int ecode;                            // error code
   char* input;
   char** graph_route;                   // format rated: vertice0 -> number (positive or negative) -> vertice1
-                                        // format unrated: vertice0 -> vertice1 -> vertice2 -> vertice3
+                                        // format unrated: vertice0 -> +/- -> vertice1 -> +/- -> vertice2 -> +/- -> vertice3
   int contains_negative_edge;           // some algorithm does not support negative edge
   int is_graph_rated;                   // program take care about numbers
   int is_graph_oriented;                // program take care about direction

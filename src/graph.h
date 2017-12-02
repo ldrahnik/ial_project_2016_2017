@@ -19,6 +19,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <limits.h>
 
 typedef struct edge {
   char* src;
