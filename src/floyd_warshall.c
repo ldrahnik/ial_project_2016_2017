@@ -80,12 +80,12 @@ void printFloydWarshallPath(TGraph graph, TResults results, int start_vertice, i
 }
 
 void printFloydWarshallDistances(TGraph graph, TResults results) {
-  printf("\n");
+  fprintf(stderr, "\n");
   int i, j;
   for (i = 0; i < graph.vertices_count; i++) {
     for (j = 0; j < graph.vertices_count; j++) {
       fprintf(stderr, "%d ", results.distances[i][j]);
     }
-    putchar('\n');
+    fprintf(stderr, "\n");
   }
 }
