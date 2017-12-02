@@ -62,7 +62,7 @@ TParams getParams(int argc, char *argv[]) {
           params.is_graph_rated = 0;
           break;
       case 'o':
-        if(params.is_graph_oriented != -1) {
+        if(params.is_graph_oriented) {
           fprintf(stderr, "Option -o has been already set.\n");
           params.ecode = EOPT;
           return params;
