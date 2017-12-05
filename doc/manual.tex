@@ -59,7 +59,7 @@ Bellman-Fordův algoritmus slouží pro hledání nejkratších cest v ohodnocen
 \par
 Hlavní operací algoritmu je relaxace hran, kde hrají roli dva uzly a mezi nimi vedoucí hrana. Pokud je vzdálenost mezi uzly u a v kratší než dosavadně spočítaná, tak ji přepočteme a opravíme předchůdce uzlu v na u. Tato metoda je využívána i u Dijkstrova algoritmu.
 \par
-Asymptotická složitost je $O(V*E)$.
+Asymptotická složitost je $O(|V|*|E|*|E|)$.
 
 \subsection{Dijkstrův algoritmus}
 Tento algoritmus byl vymyšlen nizozemským informatikem Edsgerem Dijkstrou v roce 1959. Soustředí se na prohledávání grafu do šířky , kde se vlna šíří v závislosti na vzdálenosti od zdroje.
