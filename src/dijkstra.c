@@ -58,6 +58,7 @@ TResults dijkstra(TGraph graph, int vertice_id) {
         if (distance <= results.distances[0][neighbour]) {
           results.predecessors[neighbour][current] = 1;
         }
+        // TODO: cycle removing already not shortest ways
       }
     }
 
