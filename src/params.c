@@ -87,7 +87,7 @@ TParams getParams(int argc, char *argv[]) {
             return params;
           }
           length = ftell(file);
-          if(length == -1) {
+          if(length == -1 || length == 0) {
             params.ecode = EFILE;
             return params;
           }
@@ -96,14 +96,12 @@ TParams getParams(int argc, char *argv[]) {
             return params;
           }
           params.input = malloc(length + 1);
-          if(params.input  == NULL) {
+          if(params.input == NULL) {
             params.ecode = EALLOC;
             return params;
           }
-          if(params.input) {
-            fread(params.input, 1, length, file);
-            params.input[length] = '\0';
-          }
+          fread(params.input, 1, length, file);
+          params.input[length] = '\0';
           fclose(file);
         } else {
           params.input = malloc(strlen(optarg) + 1);
