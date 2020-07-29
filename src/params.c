@@ -95,22 +95,24 @@ TParams getParams(int argc, char *argv[]) {
             params.ecode = EFILE;
             return params;
           }
-          params.input = malloc(length);
+          params.input = malloc(length + 1);
           if(params.input  == NULL) {
             params.ecode = EALLOC;
             return params;
           }
-          if(params.input ) {
+          if(params.input) {
             fread(params.input, 1, length, file);
+            params.input[length] = '\0';
           }
           fclose(file);
         } else {
-          params.input  = malloc(strlen(optarg));
+          params.input = malloc(strlen(optarg) + 1);
           if(params.input  == NULL) {
             params.ecode = EALLOC;
             return params;
           }
           strcpy(params.input, optarg);
+          params.input[strlen(optarg)] = '\0';
         }
         break;
       case '?':
