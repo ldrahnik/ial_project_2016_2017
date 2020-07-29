@@ -1,7 +1,7 @@
 ASSESSMENT 
 ==========
 
-8.9/20b ([assessment report](https://github.com/ldrahnik/ial_project_2017_2018/issues/2))
+8.9/15b ([assessment report](https://github.com/ldrahnik/ial_project_2017_2018/issues/2))
 
 SHREYA - Nejkratší cesta v grafu
 ============
