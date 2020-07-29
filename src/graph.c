@@ -75,10 +75,10 @@ char** parseInputToGraphRoute(char* input, int debug) {
   char ** res = NULL;
 
   // replace new line etc. with space
-  for (char* p = input; p = strchr(p, '\r'); ++p) {
+  for (char* p = input; (p = strchr(p, '\r')); ++p) {
     *p = ' ';
   }
-  for (char* p = input; p = strchr(p, '\n'); ++p) {
+  for (char* p = input; (p = strchr(p, '\n')); ++p) {
     *p = ' ';
   }
 
