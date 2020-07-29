@@ -44,7 +44,7 @@ TParams getParams(int argc, char *argv[]) {
     switch (c) {
       case 'h':
         params.show_help_message = 1;
-        break;
+        return params;
       case 'r':
         if(params.is_graph_rated != -1) {
           fprintf(stderr, "Option -r has been already set.\n");
