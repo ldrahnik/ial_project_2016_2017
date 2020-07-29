@@ -29,6 +29,7 @@ TParams getParams(int argc, char *argv[]) {
     .is_graph_rated = -1,
     .is_graph_oriented = 0,
     .input = 0,
+    .debug = 0,
   };
 
   // don't want getopt() writing to stderr
@@ -40,8 +41,11 @@ TParams getParams(int argc, char *argv[]) {
 
   // getopt
   int c;
-  while ((c = getopt(argc, argv, "uorhi:")) != -1) {
+  while ((c = getopt(argc, argv, "duorhi:")) != -1) {
     switch (c) {
+      case 'd':
+        params.debug = 1;
+        break;
       case 'h':
         params.show_help_message = 1;
         return params;

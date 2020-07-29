@@ -22,6 +22,7 @@ typedef struct params {
   int is_graph_oriented;                // program take care about direction
   char* vertice_start;
   char* vertice_end;
+  int debug;
 } TParams;
 
 TParams getParams(int argc, char *argv[]);

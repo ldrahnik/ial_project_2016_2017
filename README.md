@@ -31,6 +31,8 @@ Options:
 
 ## Rozšíření programu:
 
+Přidaný volitelný debugovací parametr `[-d]`.
+
 ## Testování programu:
 
 ## Odevzdané soubory:

@@ -42,10 +42,11 @@ typedef struct graph {
   TEdge* edge;
   TVertice* vertice;
   int ecode;
+  int debug;
 } TGraph;
 
-TGraph stepByStepGraphRoute(char** graph_route);
-char** parseInputToGraphRoute(char* input);
+TGraph stepByStepGraphRoute(char** graph_route, int debug);
+char** parseInputToGraphRoute(char* input, int debug);
 TGraph getGraph(TParams params);
 int isNumber(char number[]);
 int isNonRatedEdge(char* c);

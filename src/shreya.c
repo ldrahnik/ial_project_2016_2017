@@ -51,7 +51,8 @@ int main(int argc, char *argv[]) {
     return params.ecode;
   }
 
-  fprintf(stderr, "DEBUG: getParams() successfuly ended.\n\n");
+  if(params.debug)
+    fprintf(stderr, "DEBUG: getParams() successfuly ended.\n\n");
 
   // help message
   if(params.show_help_message) {
@@ -67,10 +68,11 @@ int main(int argc, char *argv[]) {
     return params.ecode;
   }
 
-  fprintf(stderr, "DEBUG: vertices count: %i\n\n", graph.vertices_count);
-  fprintf(stderr, "DEBUG: edges count: %i\n\n", graph.edges_count);
-
-  fprintf(stderr, "\nDEBUG: getGraph() successfuly ended.\n\n");
+  if(params.debug) {
+    fprintf(stderr, "DEBUG: vertices count: %i\n\n", graph.vertices_count);
+    fprintf(stderr, "DEBUG: edges count: %i\n\n", graph.edges_count);
+    fprintf(stderr, "\nDEBUG: getGraph() successfuly ended.\n\n");
+  }
 
   int start_position = getPositionOfVertice(graph, params.vertice_start);
   int end_position = getPositionOfVertice(graph, params.vertice_end);
@@ -87,9 +89,10 @@ int main(int argc, char *argv[]) {
       return results.ecode;
     }
 
-    printFloydWarshallDistances(graph, results);
-
-    fprintf(stdout, "\n");
+    if (params.debug) {
+      printFloydWarshallDistances(graph, results);
+      fprintf(stdout, "\n");
+    }
 
     // TODO: more ways
     printFloydWarshallPath(graph, results, start_position, end_position);
@@ -116,13 +119,15 @@ int main(int argc, char *argv[]) {
       return results.ecode;
     }
 
-    printBellmanFordDistances(graph, results);
+    if(params.debug) {
+      printBellmanFordDistances(graph, results);
+      fprintf(stdout, "\n");
+    }
 
-    fprintf(stdout, "\n");
-
-    printBellmanFordPredecessors(graph, results);
-
-    fprintf(stdout, "\n");
+    if(params.debug) {
+      printBellmanFordPredecessors(graph, results);
+      fprintf(stdout, "\n");
+    }
 
     char* path = (char *)malloc(100 * sizeof(char));
     strcpy(path, "");
@@ -146,11 +151,13 @@ int main(int argc, char *argv[]) {
       return results.ecode;
     }
 
-    printDijkstraDistances(graph, results);
+    if(params.debug)
+      printDijkstraDistances(graph, results);
 
     fprintf(stdout, "\n");
 
-    printDijkstraPredecessors(graph, results);
+    if(params.debug)
+      printDijkstraPredecessors(graph, results);
 
     fprintf(stdout, "\n");
 

@@ -58,7 +58,7 @@ int getPositionOfVertice(TGraph graph, char* vertice) {
 /**
  * Parse for example -i 'A 1 B 2 C' to  [0] = A, [1] = 1 ... [5] = (null)
  */
-char** parseInputToGraphRoute(char* input) {
+char** parseInputToGraphRoute(char* input, int debug) {
   char ** res = NULL;
 
   // replace new line etc. with space
@@ -92,14 +92,16 @@ char** parseInputToGraphRoute(char* input) {
   res[n_spaces] = 0;
 
   // DEBUG:
-  for(i = 0; i < (n_spaces+1); ++i)
-    fprintf(stderr, "DEBUG: res[%d] = %s\n", i, res[i]);
-  fprintf(stderr, "\n");
+  if(debug) {
+    for(i = 0; i < (n_spaces+1); ++i)
+      fprintf(stderr, "DEBUG: res[%d] = %s\n", i, res[i]);
+    fprintf(stderr, "\n");
+  }
 
   return res;
 }
 
-TGraph stepByStepGraphRoute(char** graph_route) {
+TGraph stepByStepGraphRoute(char** graph_route, int debug) {
   int i = 0;
 
   TGraph graph = {
@@ -109,7 +111,8 @@ TGraph stepByStepGraphRoute(char** graph_route) {
     .vertices_count = 0,
     .edges_count = 0,
     .edge = NULL,
-    .vertice = NULL
+    .vertice = NULL,
+    .debug = debug,
   };
 
   // <start_vertice> <edge> <end_vertice> ...
@@ -122,11 +125,14 @@ TGraph stepByStepGraphRoute(char** graph_route) {
   while(graph_route[i]) {
 
     if(start_vertice == 0) { // start_vertice
-      fprintf(stderr, "DEBUG: start_vertice at index: %i\n", i);
+      if(debug) {
+        fprintf(stderr, "DEBUG: start_vertice at index: %i\n", i);
+      }
       start_vertice = 1;
 
       if(!isVerticeValid(graph, graph_route[i])) {
-        fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
+        if(debug)
+          fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
         graph.vertice = (TVertice*)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
         graph.vertice[graph.vertices_count].name = graph_route[i];
         graph.vertices_count++;
@@ -134,7 +140,8 @@ TGraph stepByStepGraphRoute(char** graph_route) {
     } else if(start_vertice == 1 && edge == 0) { // edge
       edge = 1;
       if(isNumberEdge(graph_route[i])) {
-        fprintf(stderr, "DEBUG: edge as number at index: %i\n", i);
+        if(debug)
+          fprintf(stderr, "DEBUG: edge as number at index: %i\n", i);
 
         // negative check
         if(atoi(graph_route[i]) < 0) {
@@ -148,14 +155,17 @@ TGraph stepByStepGraphRoute(char** graph_route) {
           graph.is_graph_rated = 1;
         }
       } else if (isNonRatedEdge(graph_route[i])) {
-        fprintf(stderr, "DEBUG: edge +/- at index: %i\n", i);
+        if(debug)
+          fprintf(stderr, "DEBUG: edge +/- at index: %i\n", i);
       }
     } else if (start_vertice == 1 && edge == 1 && end_vertice == 0) {  // end_vertice
-      fprintf(stderr, "DEBUG: end_vertice at index: %i\n", i);
+      if(debug)
+        fprintf(stderr, "DEBUG: end_vertice at index: %i\n", i);
       end_vertice = 1;
 
       if(!isVerticeValid(graph, graph_route[i])) {
-        fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
+        if(debug)
+          fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
         graph.vertice = (TVertice*)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
         graph.vertice[graph.vertices_count].name = graph_route[i];
         graph.vertices_count++;
@@ -172,7 +182,8 @@ TGraph stepByStepGraphRoute(char** graph_route) {
       graph.edges_count++;
     } else if(start_vertice == 1 && edge == 1 && end_vertice == 1) {
       if(isNumberEdge(graph_route[i])) {
-        fprintf(stderr, "DEBUG: edge-e-e as number at index: %i\n", i);
+        if(debug)
+          fprintf(stderr, "DEBUG: edge-e-e as number at index: %i\n", i);
 
         edge = 1;
         start_vertice = 1;
@@ -190,13 +201,15 @@ TGraph stepByStepGraphRoute(char** graph_route) {
           graph.contains_negative_edge = 1;
         }
       } else {
-        fprintf(stderr, "DEBUG: start_vertice at index: %i\n", i);
+        if(debug)
+          fprintf(stderr, "DEBUG: start_vertice at index: %i\n", i);
         start_vertice = 1;
         end_vertice = 0;
         edge = 0;
 
         if(!isVerticeValid(graph, graph_route[i])) {
-          fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
+          if(debug)
+            fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
           graph.vertice = (TVertice*)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
           graph.vertice[graph.vertices_count].name = graph_route[i];
           graph.vertices_count++;
@@ -209,15 +222,18 @@ TGraph stepByStepGraphRoute(char** graph_route) {
     i++;
   }
   int y;
-  for(y = 0; y < graph.vertices_count; y++) {
-    fprintf(stderr, "\nDEBUG: %i %s\n", y, graph.vertice[y].name);
-  }
-  for(y = 0; y < graph.edges_count; y++) {
-    fprintf(stderr, "\nDEBUG: %i src: %s\n", y, graph.edge[y].src);
-    fprintf(stderr, "\nDEBUG: %i dest: %s\n", y, graph.edge[y].dest);
-    fprintf(stderr, "\nDEBUG: %i src_id: %i\n", y, graph.edge[y].src_id);
-    fprintf(stderr, "\nDEBUG: %i dest_id: %i\n", y, graph.edge[y].dest_id);
-    fprintf(stderr, "\nDEBUG: %i weight: %i\n", y, graph.edge[y].weight);
+
+  if(debug) {
+    for(y = 0; y < graph.vertices_count; y++) {
+      fprintf(stderr, "\nDEBUG: %i %s\n", y, graph.vertice[y].name);
+    }
+    for(y = 0; y < graph.edges_count; y++) {
+      fprintf(stderr, "\nDEBUG: %i src: %s\n", y, graph.edge[y].src);
+      fprintf(stderr, "\nDEBUG: %i dest: %s\n", y, graph.edge[y].dest);
+      fprintf(stderr, "\nDEBUG: %i src_id: %i\n", y, graph.edge[y].src_id);
+      fprintf(stderr, "\nDEBUG: %i dest_id: %i\n", y, graph.edge[y].dest_id);
+      fprintf(stderr, "\nDEBUG: %i weight: %i\n", y, graph.edge[y].weight);
+    }
   }
   if(start_vertice == 1 && edge == 0) {
     fprintf(stderr, "There is missing edge at index %i.\n", i);
@@ -236,13 +252,13 @@ TGraph stepByStepGraphRoute(char** graph_route) {
  * @return TParams
  */
 TGraph getGraph(TParams params) {
-  params.graph_route = parseInputToGraphRoute(params.input);
+  params.graph_route = parseInputToGraphRoute(params.input, params.debug);
   if(params.graph_route == NULL) {
     TGraph graph;
     graph.ecode = EALLOC;
     return graph;
   }
-  TGraph graph = stepByStepGraphRoute(params.graph_route);
+  TGraph graph = stepByStepGraphRoute(params.graph_route, params.debug);
 
   if(graph.ecode != EOK) {
     graph.ecode = EGRAPH;
@@ -251,11 +267,13 @@ TGraph getGraph(TParams params) {
 
   // is graph oriented
   graph.is_graph_oriented = params.is_graph_oriented;
-  fprintf(stderr, "\nDEBUG: graph is oriented: %i\n\n", graph.is_graph_oriented);
+  if(params.debug)
+    fprintf(stderr, "\nDEBUG: graph is oriented: %i\n\n", graph.is_graph_oriented);
 
   // is graph rated
   graph.is_graph_rated = params.is_graph_rated != -1 ? params.is_graph_rated : graph.is_graph_rated;
-  fprintf(stderr, "\nDEBUG: graph is rated: %i\n\n", graph.is_graph_rated);
+  if(params.debug)
+    fprintf(stderr, "\nDEBUG: graph is rated: %i\n\n", graph.is_graph_rated);
 
   // if is graph not rated (or we want to be non rated, set up all edges as 1)
   if(!graph.is_graph_rated) {
@@ -267,7 +285,8 @@ TGraph getGraph(TParams params) {
   }
 
   // is there negative edge?
-  fprintf(stderr, "\nDEBUG: graph contains negative edge: %i\n\n", graph.contains_negative_edge);
+  if(params.debug)
+    fprintf(stderr, "\nDEBUG: graph contains negative edge: %i\n\n", graph.contains_negative_edge);
 
   // check correct minimum of graph length
   int length_of_graph_route = 0;
