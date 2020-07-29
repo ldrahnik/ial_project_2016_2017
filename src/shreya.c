@@ -172,6 +172,7 @@ int main(int argc, char *argv[]) {
   }
 
   cleanParams(params);
+  cleanGraph(graph);
 
   return ecode;
 }

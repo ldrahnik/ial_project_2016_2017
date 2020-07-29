@@ -48,7 +48,7 @@ TResults floydWarshall(TGraph graph) {
 
     // add the distance for each arc
     for (i = 0; i < graph.edges_count; i++) {
-        results.distances[graph.edge[i].src_id][graph.edge[i].dest_id] = graph.edge[i].weight;
+        results.distances[graph.edge[i]->src_id][graph.edge[i]->dest_id] = graph.edge[i]->weight;
     }
 
     // calculate the rest of the distances
@@ -70,12 +70,12 @@ TResults floydWarshall(TGraph graph) {
 
 void printFloydWarshallPath(TGraph graph, TResults results, int start_vertice, int end_vertice) {
   if (start_vertice == end_vertice) {
-    fprintf(stdout, "-> %s ", graph.vertice[start_vertice].name);
+    fprintf(stdout, "-> %s ", graph.vertice[start_vertice]->name);
   } else if (results.predecessors[start_vertice][end_vertice] == INT_MIN) {
-    fprintf(stdout, "%s -> %s", graph.vertice[start_vertice].name, graph.vertice[end_vertice].name);
+    fprintf(stdout, "%s -> %s", graph.vertice[start_vertice]->name, graph.vertice[end_vertice]->name);
   } else {
     printFloydWarshallPath(graph, results, start_vertice, results.predecessors[start_vertice][end_vertice]);
-    fprintf(stdout, "-> %s ", graph.vertice[end_vertice].name);
+    fprintf(stdout, "-> %s ", graph.vertice[end_vertice]->name);
   }
 }
 

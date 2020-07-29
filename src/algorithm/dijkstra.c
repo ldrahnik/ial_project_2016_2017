@@ -49,9 +49,9 @@ TResults dijkstra(TGraph graph, int vertice_id) {
 
     // Update the distances to all neighbours
     for (e = 0; e < graph.edges_count; e++) {
-      if (graph.edge[e].src_id == current || graph.edge[e].dest_id == current) {
-        int neighbour = graph.edge[e].src_id == current ? graph.edge[e].dest_id : graph.edge[e].src_id;
-        int distance = results.distances[0][current] + graph.edge[e].weight;
+      if (graph.edge[e]->src_id == current || graph.edge[e]->dest_id == current) {
+        int neighbour = graph.edge[e]->src_id == current ? graph.edge[e]->dest_id : graph.edge[e]->src_id;
+        int distance = results.distances[0][current] + graph.edge[e]->weight;
         if (distance < results.distances[0][neighbour]) {
           results.distances[0][neighbour] = distance;
         }
@@ -85,7 +85,7 @@ void printDijkstraPredecessors(TGraph graph, TResults results) {
     for(a = 0; a < graph.vertices_count; a++) {
       int isEdgeValid = results.predecessors[v][a];
       if(isEdgeValid) {
-        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
+        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v]->name, a, graph.vertice[a]->name);
       }
     }
   }
@@ -96,7 +96,7 @@ void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int star
     char* pathNew = (char *)malloc(100 * sizeof(char));
     strcpy(pathNew, path);
     strcat(pathNew, "-> ");
-    strcat(pathNew, graph.vertice[start_vertice].name);
+    strcat(pathNew, graph.vertice[start_vertice]->name);
     strcat(pathNew, " ");
     if(end_vertice == start_vertice) {
       fprintf(stdout, "%s\n", pathNew);

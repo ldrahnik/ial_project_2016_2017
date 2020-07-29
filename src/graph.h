@@ -39,8 +39,8 @@ typedef struct graph {
   int contains_negative_edge;
   int is_graph_rated;
   int is_graph_oriented;
-  TEdge* edge;
-  TVertice* vertice;
+  TEdge** edge;
+  TVertice** vertice;
   int ecode;
   int debug;
 } TGraph;
@@ -54,6 +54,6 @@ int isEdge(char* c);
 int isNumberEdge(char* c);
 int getPositionOfVertice(TGraph graph, char* vertice);
 int isVerticeValid(TGraph graph, char* vertice);
-//void cleanGraph(TGraph graph); TODO:
+void cleanGraph(TGraph graph);
 
 #endif

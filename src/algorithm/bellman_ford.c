@@ -43,9 +43,9 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
   for(v = 0; v < graph.vertices_count; v++) {
     for (a = 0; a < graph.edges_count; a++) {
 
-      int src_id = graph.edge[a].src_id;
-      int dest_id = graph.edge[a].dest_id;
-      int weight = graph.edge[a].weight;
+      int src_id = graph.edge[a]->src_id;
+      int dest_id = graph.edge[a]->dest_id;
+      int weight = graph.edge[a]->weight;
 
       if (results.distances[0][src_id] != INT_MAX && results.distances[0][src_id] + weight <= results.distances[0][dest_id]) {
         results.distances[0][dest_id] = results.distances[0][src_id] + weight;
@@ -53,8 +53,8 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
 
         int x = 0;
         for(x = 0; x < graph.edges_count; x++) {
-          if(src_id != x && results.predecessors[dest_id][graph.edge[x].src_id] != INT_MAX && results.predecessors[dest_id][graph.edge[x].src_id] > results.predecessors[dest_id][src_id]) {
-            results.predecessors[dest_id][graph.edge[x].src_id] = INT_MAX;
+          if(src_id != x && results.predecessors[dest_id][graph.edge[x]->src_id] != INT_MAX && results.predecessors[dest_id][graph.edge[x]->src_id] > results.predecessors[dest_id][src_id]) {
+            results.predecessors[dest_id][graph.edge[x]->src_id] = INT_MAX;
           }
         }
       }
@@ -64,9 +64,9 @@ TResults bellmanFord(TGraph graph, int vertice_id) {
   // check for negative weight cycle
   for(a = 0; a < graph.edges_count && !negative_cycle; a++) {
 
-    int src_id = graph.edge[a].src_id;
-    int dest_id = graph.edge[a].dest_id;
-    int weight = graph.edge[a].weight;
+    int src_id = graph.edge[a]->src_id;
+    int dest_id = graph.edge[a]->dest_id;
+    int weight = graph.edge[a]->weight;
 
     negative_cycle = results.distances[0][src_id] + weight < results.distances[0][dest_id];
   }
@@ -85,7 +85,7 @@ void printBellmanFordPredecessors(TGraph graph, TResults results) {
     for(a = 0; a < graph.vertices_count; a++) {
       int isEdgeValid = results.predecessors[v][a];
       if(isEdgeValid != INT_MAX) {
-        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v].name, a, graph.vertice[a].name);
+        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v]->name, a, graph.vertice[a]->name);
       }
     }
   }
@@ -96,7 +96,7 @@ void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int s
     char* pathNew = (char *)malloc(100 * sizeof(char));
     strcpy(pathNew, path);
     strcat(pathNew, "-> ");
-    strcat(pathNew, graph.vertice[start_vertice].name);
+    strcat(pathNew, graph.vertice[start_vertice]->name);
     strcat(pathNew, " ");
     if(end_vertice == start_vertice) {
       fprintf(stdout, "%s\n", pathNew);
