@@ -11,7 +11,7 @@ PROJECT_SOURCES  		= src/*.c src/algorithm/*.c
 PROJECT_HEADERS			= src/*.h src/algorithm/*.h
 
 CC              		= gcc
-CFLAGS 					= -std=gnu99 -Wextra -Werror -pedantic -g # -Wall
+CFLAGS 					= -std=gnu99 -Wall -Wextra -Werror -pedantic -g
 
 ###########################################
 
