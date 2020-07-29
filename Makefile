@@ -1,15 +1,17 @@
 # Name:							Tučková Martina, Tussupová Kymbat, Lázňovský David, Drahník Lukáš
-# Project: 					IAL: náhradní projekt: 4. Nejkratší cesta v grafu
-#	Date:							21.10.2017
+# Project: 		 				IAL: náhradní projekt: 4. Nejkratší cesta v grafu
+# Date:							21.10.2017
 # Email:						<xtucko00@stud.fit.vutbr.cz>, <xtussu00@stud.fit.vutbr.cz>, <xlazno00@stud.fit.vutbr.cz>, <xdrahn00@stud.fit.vutbr.cz>
 
 PROJECT_NAME     		= shreya
-PROJECT_DOC					= doc/manual.pdf
+PROJECT_DOC				= doc/manual.pdf
+PROJECT_DOC_DIR			= doc
+PROJECT_DOC_NAME		= manual.pdf
 PROJECT_SOURCES  		= src/*.c
 PROJECT_HEADERS			= src/*.h
 
 CC              		= gcc
-CFLAGS 							= -std=gnu99 -Wextra -Werror -pedantic -g # -Wall
+CFLAGS 					= -std=gnu99 -Wextra -Werror -pedantic -g # -Wall
 
 ###########################################
 
@@ -20,14 +22,25 @@ $(PROJECT_NAME): $(PROJECT_SOURCES) $(PROJECT_HEADERS)
 
 ############################################
 
-TAR_NAME = xtucko00
-TAR_FILES = Makefile $(PROJECT_DOC) $(PROJECT_SOURCES) $(PROJECT_HEADERS)
+ARCHIVE_NAME = xdrahn00
+ARCHIVE_FILES = Makefile $(PROJECT_SOURCES) $(PROJECT_HEADERS) -C $(PROJECT_DOC_DIR) $(PROJECT_DOC_NAME)
+ARCHIVE_EXTENSION = .tar.gz
+ARCHIVE = $(ARCHIVE_NAME)$(ARCHIVE_EXTENSION)
 
-zip:
-	tar -cvzf $(TAR_NAME).zip $(TAR_FILES)
+archive:
+	# doc
+	make tex
+	
+	tar -cvzf $(ARCHIVE) $(ARCHIVE_FILES)
 
-rmzip:
-	rm -f $(TAR_NAME).zip
+unarchive:
+	rm -rf $(ARCHIVE_NAME) && mkdir -p $(ARCHIVE_NAME) && tar -C $(ARCHIVE_NAME) -xvzf $(ARCHIVE)
+
+rmarchive:
+	rm -f $(ARCHIVE)
+
+tree:
+	tree -a $(ARCHIVE_NAME)
 
 ############################################
 

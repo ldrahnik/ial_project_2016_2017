@@ -36,3 +36,27 @@ Přidaný volitelný debugovací parametr `[-d]`.
 ## Testování programu:
 
 ## Odevzdané soubory:
+
+```
+xdrahn00
+├── Makefile
+├── manual.pdf
+└── src
+    ├── bellman_ford.c
+    ├── bellman_ford.h
+    ├── dijkstra.c
+    ├── dijkstra.h
+    ├── error.h
+    ├── floyd_warshall.c
+    ├── floyd_warshall.h
+    ├── graph.c
+    ├── graph.h
+    ├── params.c
+    ├── params.h
+    ├── results.c
+    ├── results.h
+    ├── shreya.c
+    └── shreya.h
+
+1 directory, 17 files
+```
