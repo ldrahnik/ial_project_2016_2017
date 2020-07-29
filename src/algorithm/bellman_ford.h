@@ -9,8 +9,8 @@
 #ifndef _bellman_ford_H_
 #define _bellman_ford_H_
 
-#include "graph.h"
-#include "results.h"
+#include "../graph.h"
+#include "../results.h"
 
 #include <stdlib.h>
 #include <limits.h>

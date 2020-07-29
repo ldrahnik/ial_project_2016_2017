@@ -24,9 +24,9 @@
 #include "error.h"
 #include "graph.h"
 #include "params.h"
-#include "floyd_warshall.h"
-#include "bellman_ford.h"
-#include "dijkstra.h"
+#include "./algorithm/floyd_warshall.h"
+#include "./algorithm/bellman_ford.h"
+#include "./algorithm/dijkstra.h"
 #include "results.h"
 
 #include <stdio.h>

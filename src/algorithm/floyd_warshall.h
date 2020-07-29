@@ -9,8 +9,8 @@
 #ifndef _floyd_warshall_H_
 #define _floyd_warshall_H_
 
-#include "graph.h"
-#include "results.h"
+#include "../graph.h"
+#include "../results.h"
 
 #include <stdlib.h>
 #include <limits.h>

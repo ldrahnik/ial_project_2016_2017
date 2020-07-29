@@ -42,13 +42,14 @@ xdrahn00
 ├── Makefile
 ├── manual.pdf
 └── src
-    ├── bellman_ford.c
-    ├── bellman_ford.h
-    ├── dijkstra.c
-    ├── dijkstra.h
+    ├── algorithm
+    │   ├── bellman_ford.c
+    │   ├── bellman_ford.h
+    │   ├── dijkstra.c
+    │   ├── dijkstra.h
+    │   ├── floyd_warshall.c
+    │   └── floyd_warshall.h
     ├── error.h
-    ├── floyd_warshall.c
-    ├── floyd_warshall.h
     ├── graph.c
     ├── graph.h
     ├── params.c
@@ -57,6 +58,4 @@ xdrahn00
     ├── results.h
     ├── shreya.c
     └── shreya.h
-
-1 directory, 17 files
 ```

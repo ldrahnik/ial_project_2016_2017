@@ -7,8 +7,8 @@ PROJECT_NAME     		= shreya
 PROJECT_DOC				= doc/manual.pdf
 PROJECT_DOC_DIR			= doc
 PROJECT_DOC_NAME		= manual.pdf
-PROJECT_SOURCES  		= src/*.c
-PROJECT_HEADERS			= src/*.h
+PROJECT_SOURCES  		= src/*.c src/algorithm/*.c
+PROJECT_HEADERS			= src/*.h src/algorithm/*.h
 
 CC              		= gcc
 CFLAGS 					= -std=gnu99 -Wextra -Werror -pedantic -g # -Wall
