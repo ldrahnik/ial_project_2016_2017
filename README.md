@@ -6,7 +6,7 @@ ASSESSMENT
 SHREYA - Nejkratší cesta v grafu
 ============
 
-Program hledá nejkratší cestu v grafu mezi dvěma zadanými vrcholy. Pokud není explicitně uvedeno zda se jedná o ohodnocený (`-r`) nebo neohodnocený (`-u`) graf, nastaví se automaticky ohodnocený v případě nalezení alespoň 1 ohodnocené hrany. Orientovanost (`-o`) je nutné nutné vždy explicitně vyžádat argumentem.
+Program hledá nejkratší cestu v grafu mezi dvěma zadanými vrcholy. Pokud není explicitně uvedeno zda se jedná o ohodnocený (`-r`) nebo neohodnocený (`-u`) graf, nastaví se automaticky ohodnocený v případě nalezení alespoň 1 ohodnocené hrany. Orientovanost (`-o`) je nutné vždy explicitně vyžádat argumentem.
 
 ## Příklad spuštění:
 
