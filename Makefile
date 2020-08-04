@@ -3,6 +3,8 @@
 # Date:							21.10.2017
 # Email:						<xtucko00@stud.fit.vutbr.cz>, <xtussu00@stud.fit.vutbr.cz>, <xlazno00@stud.fit.vutbr.cz>, <xdrahn00@stud.fit.vutbr.cz>
 
+PWD						= $(shell pwd)
+
 PROJECT_NAME     		= shreya
 PROJECT_DOC				= doc/manual.pdf
 PROJECT_DOC_DIR			= doc
@@ -46,3 +48,14 @@ tree:
 
 tex:
 	cd doc && make && make manual.ps && make manual.pdf
+	
+############################################
+
+TESTS_SCRIPT_OUTPUT		= $(PWD)/tests/log
+TESTS_SCRIPT_REF		= $(PWD)/tests/
+GRAPHVIZ_CONVERT_SCRIPT	= $(PWD)/graphviz/convert_script.py
+
+test:
+	bash ./tests/_run-tests.sh $(PWD) $(TESTS_SCRIPT_OUTPUT) $(TESTS_SCRIPT_REF) $(GRAPHVIZ_CONVERT_SCRIPT)
+	
+	rm -rf $(TESTS_SCRIPT_OUTPUT)/*

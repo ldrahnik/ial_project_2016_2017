@@ -1,0 +1,5 @@
+
+Floyd Warshall:
+-> A -> D -> B -> C -> F 
+
+Bellman Ford:
