@@ -24,7 +24,7 @@
 const char *HELP_MSG = {
   "The shorted path in graph between two vertices. If the type of graph would be not explicitly defined by options are automatically defined from graph.\n\n"
   "Example of usage:\n\n"
-  "./shreya [-h ] [-r|-nr] [-o|-no] [-i <graph_path as string>] <vertice_start> <vertice_end>\n\n"
+  "./shreya [-h ] [-r] [-o] [-i <graph_path as string>] <vertice_start> <vertice_end>\n\n"
   "Options:\n"
   "-r -- rated graph\n"
   "-u -- non-rated graph\n"

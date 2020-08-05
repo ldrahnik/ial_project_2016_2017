@@ -16,7 +16,7 @@ The shorted path in graph between two vertices. If the type of graph would be no
 
 Example of usage:
 
-./shreya [-h ] [-r|-nr] [-o|-no] [-i <graph_path as string>] <vertice_start> <vertice_end>
+./shreya [-h ] [-r] [-o] [-i <graph_path as string>] <vertice_start> <vertice_end>
 
 Options:
 -r -- rated graph
