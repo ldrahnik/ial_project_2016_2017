@@ -151,15 +151,15 @@ int main(int argc, char *argv[]) {
       return results.ecode;
     }
 
-    if(params.debug)
+    if(params.debug) {
       printDijkstraDistances(graph, results);
+      fprintf(stdout, "\n");
+    }
 
-    fprintf(stdout, "\n");
-
-    if(params.debug)
+    if(params.debug) {
       printDijkstraPredecessors(graph, results);
-
-    fprintf(stdout, "\n");
+      fprintf(stdout, "\n");
+    }
 
     char* path = (char *)malloc(100 * sizeof(char));
     strcpy(path, "");
