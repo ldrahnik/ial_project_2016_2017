@@ -91,24 +91,36 @@ void printBellmanFordPredecessors(TGraph graph, TResults results) {
   }
 }
 
-void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path) {
+void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, int edge_value_to_start_vertice, char* path) {
   if(start_vertice != INT_MIN) {
-    char* pathNew = (char *)malloc(100 * sizeof(char));
-    strcpy(pathNew, path);
-    strcat(pathNew, "-> ");
-    strcat(pathNew, graph.vertice[start_vertice]->name);
-    strcat(pathNew, " ");
-    if(end_vertice == start_vertice) {
-      fprintf(stdout, "%s\n", pathNew);
+
+    // TODO: does not support long path (use realloc)
+    char* path_new = (char *)malloc(1000 * sizeof(char));
+
+    strcpy(path_new, path);
+
+    if(edge_value_to_start_vertice != 0) {
+      strcat(path_new, " -(");
+      char edgeValueLikeString[10];
+      sprintf(edgeValueLikeString, "%d", edge_value_to_start_vertice);
+      strcat(path_new, edgeValueLikeString);
+      strcat(path_new, ")> ");
     }
+
+    strcat(path_new, graph.vertice[start_vertice]->name);
+
+    if(end_vertice == start_vertice) {
+      fprintf(stdout, "%s\n", path_new);
+    }
+
     int a;
     for(a = 0; a < graph.vertices_count; a++) {
-      int isEdgeValid = results.predecessors[a][start_vertice];
-      if(isEdgeValid != INT_MAX) {
-        printBellmanFordPath(graph, results, end_vertice, a, pathNew);
+      int edge_value = results.predecessors[a][start_vertice];
+      if(edge_value != INT_MAX) {
+        printBellmanFordPath(graph, results, end_vertice, a, edge_value, path_new);
       }
     }
-    free(pathNew);
+    free(path_new);
   }
 }
 

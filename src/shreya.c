@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
 
     char* path = (char *)malloc(100 * sizeof(char));
     strcpy(path, "");
-    printBellmanFordPath(graph, results, end_position, start_position, path);
+    printBellmanFordPath(graph, results, end_position, start_position, 0, path);
     free(path);
 
     fprintf(stdout, "\n");

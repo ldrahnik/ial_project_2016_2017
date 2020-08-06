@@ -16,7 +16,7 @@
 #include <limits.h>
 
 TResults bellmanFord(TGraph graph, int vertice_id);
-void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path);
+void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, int edge_value_to_start_vertice, char* path);
 void printBellmanFordDistances(TGraph graph, TResults results);
 void printBellmanFordPredecessors(TGraph graph, TResults results);
 
