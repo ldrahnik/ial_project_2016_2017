@@ -110,7 +110,7 @@ void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int s
     strcat(path_new, graph.vertice[start_vertice]->name);
 
     if(end_vertice == start_vertice) {
-      fprintf(stdout, "%s\n", path_new);
+      fprintf(stdout, "BellmanFord: %s\n", path_new);
     }
 
     int a;
