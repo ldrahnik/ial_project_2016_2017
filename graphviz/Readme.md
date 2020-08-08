@@ -7,6 +7,7 @@ sudo apt-install python3-pip
 pip3 --version
 # pip 9.0.1 from /usr/lib/python3/dist-packages (python 3.6)
 pip3 install --upgrade networkx
+pip3 install --upgrade matplotlib
 ```
 
 ```
