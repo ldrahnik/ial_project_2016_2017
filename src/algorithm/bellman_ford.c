@@ -99,7 +99,7 @@ void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int s
 
     strcpy(path_new, path);
 
-    if(edge_value_to_start_vertice != 0) {
+    if(strlen(path) != 0) {
       strcat(path_new, " -(");
       char edgeValueLikeString[10];
       sprintf(edgeValueLikeString, "%d", edge_value_to_start_vertice);
