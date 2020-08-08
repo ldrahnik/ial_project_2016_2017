@@ -31,7 +31,7 @@ def main(argv):
    # create Graph
    # TODO: directed
    # TODO: rated
-   g = nx.DiGraph(directed=oriented)
+   G = nx.DiGraph(directed=oriented)
    for line in open(inputFile).readlines():
       adj = list(map(str, line.split()))
 
@@ -39,17 +39,36 @@ def main(argv):
       edge_value = adj[1]
       vertex_to = adj[2]
 
-      g.add_edge(vertex_from, vertex_to, weight=edge_value)
+      G.add_edge(vertex_from, vertex_to, weight=edge_value)
 
    # preview .dot and write .png
-   # TODO: arrows
-   # TODO: node text color
-   a = to_agraph(g)
+   a = to_agraph(G)
    print(a)
    a.layout('dot')
-   pos = nx.circular_layout(g)
-   nx.draw(g, pos, None)
-   labels = nx.get_edge_attributes(g,'weight')
+   pos = nx.circular_layout(G)
+   nx.draw_networkx_nodes(
+      G,pos,
+      G.nodes(),
+      node_color='b',
+      node_size=500,
+      alpha=1
+   )
+   nx.draw_networkx_labels(
+      G,
+      pos,
+      font_size=12,
+      font_color='#FFDEAD'
+   )
+   nx.draw_networkx_edges(
+      G,
+      pos,
+      G.edges(),
+      width=1,
+      alpha=0.5,
+      edge_color='k'
+   )
+   labels = nx.get_edge_attributes(G,'weight')
+   plt.axis('off')
    plt.savefig(outputFile, format='png')
 
 if __name__ == "__main__":
