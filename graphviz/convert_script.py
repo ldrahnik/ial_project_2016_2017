@@ -67,6 +67,10 @@ def main(argv):
       alpha=0.5,
       edge_color='k'
    )
+   nx.draw_networkx_edge_labels(
+      G,
+      pos
+   )
    labels = nx.get_edge_attributes(G,'weight')
    plt.axis('off')
    plt.savefig(outputFile, format='png')
