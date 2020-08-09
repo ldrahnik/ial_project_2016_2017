@@ -43,7 +43,7 @@ def main(argv):
 
    # preview .dot and write .png
    a = to_agraph(G)
-   print(a)
+   #print(a)
    a.layout('dot')
    pos = nx.circular_layout(G)
    nx.draw_networkx_nodes(
