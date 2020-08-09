@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
 
     // TODO: more ways
     fprintf(stdout, "FloydWarshall: ");
-    printFloydWarshallPath(graph, results, start_position, end_position);
+    printFloydWarshallPath(params, graph, results, start_position, end_position);
 
     fprintf(stdout, "\n");
 

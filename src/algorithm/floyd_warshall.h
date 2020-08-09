@@ -16,7 +16,7 @@
 #include <limits.h>
 
 TResults floydWarshall(TGraph graph);
-void printFloydWarshallPath(TGraph graph, TResults results, int start_vertice, int end_vertice);
+void printFloydWarshallPath(TParams params, TGraph graph, TResults results, int start_vertice, int end_vertice);
 void printFloydWarshallDistances(TGraph graph, TResults results);
 
 #endif

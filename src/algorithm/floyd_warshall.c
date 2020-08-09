@@ -68,15 +68,18 @@ TResults floydWarshall(TGraph graph) {
     return results;
 }
 
-void printFloydWarshallPath(TGraph graph, TResults results, int start_vertice, int end_vertice) {
+void printFloydWarshallPath(TParams params, TGraph graph, TResults results, int start_vertice, int end_vertice) {
   if (start_vertice == end_vertice) {
-    fprintf(stdout, "%s ", graph.vertice[start_vertice]->name);
+    fprintf(stdout, "%s", graph.vertice[start_vertice]->name);
   } else if (results.predecessors[start_vertice][end_vertice] == INT_MIN) {
     fprintf(stdout, "%s -> %s", graph.vertice[start_vertice]->name, graph.vertice[end_vertice]->name);
   } else {
-    printFloydWarshallPath(graph, results, start_vertice, results.predecessors[start_vertice][end_vertice]);
+    printFloydWarshallPath(params, graph, results, start_vertice, results.predecessors[start_vertice][end_vertice]);
     int edge_value = results.distances[start_vertice][end_vertice];
-    fprintf(stdout, "-(%d)> %s ", edge_value, graph.vertice[end_vertice]->name);
+    fprintf(stdout, "-(%d)> %s", edge_value, graph.vertice[end_vertice]->name);
+  }
+  if(strcmp(graph.vertice[end_vertice]->name, params.vertice_end) != 0) {
+    fprintf(stdout, " ");
   }
 }
 
