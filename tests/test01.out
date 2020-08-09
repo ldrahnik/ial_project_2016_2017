@@ -1,0 +1,2 @@
+FloydWarshall: A -(-2)> D -(0)> B -(1)> C -(4)> F
+BellmanFord: A -(-2)> D -(0)> B -(1)> C -(4)> F

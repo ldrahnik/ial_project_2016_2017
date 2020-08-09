@@ -58,4 +58,6 @@ GRAPHVIZ_CONVERT_SCRIPT	= $(PWD)/graphviz/convert_script.py
 test:
 	bash ./tests/_run-tests.sh $(PWD) $(TESTS_SCRIPT_OUTPUT) $(TESTS_SCRIPT_REF) $(GRAPHVIZ_CONVERT_SCRIPT)
 	
+	bash ./tests/_run-tests-diff.sh $(PWD) $(TESTS_SCRIPT_OUTPUT) $(TESTS_SCRIPT_REF)
+	
 	rm -rf $(TESTS_SCRIPT_OUTPUT)/*

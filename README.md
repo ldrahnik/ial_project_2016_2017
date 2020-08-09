@@ -35,6 +35,18 @@ Přidaný volitelný debugovací parametr `[-d]`.
 
 ## Testování programu:
 
+```
+make test
+bash ./tests/_run-tests.sh /home/ldrahnik/projects/ial_project_2017_2018 /home/ldrahnik/projects/ial_project_2017_2018/tests/log /home/ldrahnik/projects/ial_project_2017_2018/tests/ /home/ldrahnik/projects/ial_project_2017_2018/graphviz/convert_script.py
+bash ./tests/_run-tests-diff.sh /home/ldrahnik/projects/ial_project_2017_2018 /home/ldrahnik/projects/ial_project_2017_2018/tests/log /home/ldrahnik/projects/ial_project_2017_2018/tests/
+*******TEST test01 PASSED
+*******TEST test02 PASSED
+*******TEST test03 PASSED
+*******TEST test04 PASSED
+*******TEST test05 PASSED
+rm -rf /home/ldrahnik/projects/ial_project_2017_2018/tests/log/*
+```
+
 ## Odevzdané soubory:
 
 ```

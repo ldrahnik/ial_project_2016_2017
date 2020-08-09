@@ -1,0 +1,2 @@
+FloydWarshall: F -(2)> D -(6)> B -(7)> C -(11)> A 
+BellmanFord: F -(2)> D -(6)> B -(7)> C -(11)> A

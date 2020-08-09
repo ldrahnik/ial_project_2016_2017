@@ -1,0 +1,4 @@
+FloydWarshall: A -(1)> C -(2)> E 
+BellmanFord: A -(1)> C -(1)> F -(2)> E
+BellmanFord: A -(1)> C -(2)> E
+BellmanFord: A -(-1)> D -(1)> F -(2)> E
