@@ -35,14 +35,15 @@ $GRAPHVIZ_TASK --input ${REF_PATH}test03.in --output ${REF_PATH}test03.png -o
 # -> F -> D -> B -> C -> A
 #
 
-# test04: cesta v neorientovaném grafu (Dijkstra)
-$TASK -i ${REF_PATH}test04.in A D -o > ${LOG_PATH}test04.out 2> ${LOG_PATH}test04.err
+# test04: diamant, 2 cesty v neorientovaném grafu (Dijkstra)
+$TASK -i ${REF_PATH}test04.in A D > ${LOG_PATH}test04.out 2> ${LOG_PATH}test04.err
 echo -n $? > ${LOG_PATH}test04.rc
 $GRAPHVIZ_TASK --input ${REF_PATH}test04.in --output ${REF_PATH}test04.png
 
 # Expected:
 #
 # -> A -> B -> D 
+# -> A -> C -> D 
 #
 
 # test05: cesta v orientovaném grafu
