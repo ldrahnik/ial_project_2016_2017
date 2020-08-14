@@ -99,7 +99,7 @@ void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int star
     strcat(pathNew, graph.vertice[start_vertice]->name);
     strcat(pathNew, " ");
     if(end_vertice == start_vertice) {
-      fprintf(stdout, "%s\n", pathNew);
+      fprintf(stdout, "Dijkstra: %s\n", pathNew);
     }
     int a;
     for(a = 0; a < graph.vertices_count; a++) {
