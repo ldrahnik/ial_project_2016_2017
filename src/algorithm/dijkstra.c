@@ -95,12 +95,17 @@ void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int star
   if(start_vertice != INT_MIN) {
     char* pathNew = (char *)malloc(100 * sizeof(char));
     strcpy(pathNew, path);
-    strcat(pathNew, "-> ");
+
+    if(strlen(path) != 0) {
+      strcat(pathNew, " -> ");
+    }
+
     strcat(pathNew, graph.vertice[start_vertice]->name);
-    strcat(pathNew, " ");
+
     if(end_vertice == start_vertice) {
       fprintf(stdout, "Dijkstra: %s\n", pathNew);
     }
+
     int a;
     for(a = 0; a < graph.vertices_count; a++) {
       int isEdgeValid = results.predecessors[a][start_vertice];
