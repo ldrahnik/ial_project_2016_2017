@@ -42,8 +42,8 @@ $GRAPHVIZ_TASK --input ${REF_PATH}test04.in --output ${REF_PATH}test04.png
 
 # Expected:
 #
-# -> A -> B -> D 
-# -> A -> C -> D 
+# -> A -> B -> D
+# -> A -> C -> D
 #
 
 # test05: cesta v orientovaném grafu

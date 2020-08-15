@@ -1,3 +1,2 @@
-FloydWarshall: A -(1)> B -(2)> D 
-BellmanFord: A -(1)> B -(2)> D
-BellmanFord: A -(1)> C -(2)> D
+Dijkstra: A -> B -> D
+Dijkstra: A -> C -> D
