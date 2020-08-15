@@ -57,3 +57,16 @@ $GRAPHVIZ_TASK --input ${REF_PATH}test05.in --output ${REF_PATH}test05.png -o
 # -> A -> C -> E 
 # -> A -> D -> F -> E
 #
+
+# test06: dvojitý diamant, 4 nejkratší cesty v neorientovaném grafu (Dijkstra)
+$TASK -i ${REF_PATH}test06.in A G > ${LOG_PATH}test06.out 2> ${LOG_PATH}test06.err
+echo -n $? > ${LOG_PATH}test06.rc
+$GRAPHVIZ_TASK --input ${REF_PATH}test06.in --output ${REF_PATH}test06.png
+
+# Expected:
+#
+# -> A -> B -> D -> E -> G
+# -> A -> B -> D -> F -> G
+# -> A -> C -> D -> F -> G
+# -> A -> C -> D -> E -> G
+#
