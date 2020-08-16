@@ -55,5 +55,6 @@ int isNumberEdge(char* c);
 int getPositionOfVertice(TGraph graph, char* vertice);
 int isVerticeValid(TGraph graph, char* vertice);
 void cleanGraph(TGraph graph);
+int getEdgeValue(TGraph graph, int start_vertice_id, int end_vertice_id);
 
 #endif

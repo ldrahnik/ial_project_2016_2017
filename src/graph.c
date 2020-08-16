@@ -371,3 +371,10 @@ TGraph getGraph(TParams params) {
 
   return graph;
 }
+
+int getEdgeValue(TGraph graph, int start_vertice_id, int end_vertice_id) {
+  for(int i = 0; i < graph.edges_count; i++)
+    if(graph.edge[i]->src_id == start_vertice_id && graph.edge[i]->dest_id == end_vertice_id)
+      return graph.edge[i]->weight;
+  return INT_MAX;
+}

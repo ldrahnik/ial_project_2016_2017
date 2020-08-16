@@ -44,6 +44,7 @@ bash ./tests/_run-tests-diff.sh /home/ldrahnik/projects/ial_project_2017_2018 /h
 *******TEST test03 PASSED
 *******TEST test04 PASSED
 *******TEST test05 PASSED
+*******TEST test06 PASSED
 rm -rf /home/ldrahnik/projects/ial_project_2017_2018/tests/log/*
 ```
 

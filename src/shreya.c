@@ -157,13 +157,9 @@ int main(int argc, char *argv[]) {
       fprintf(stdout, "\n");
     }
 
-    if(params.debug) {
-      printDijkstraPredecessors(graph, results);
-      fprintf(stdout, "\n");
-    }
-
-    char* path = (char *)malloc(100 * sizeof(char));
-    strcpy(path, "");
+    char* path = (char *)malloc((strlen(params.vertice_end) + 1) * sizeof(char));
+    strcpy(path, params.vertice_end);
+    path[strlen(params.vertice_end)] = '\0';
     printDijkstraPath(graph, results, end_position, start_position, path);
     free(path);
 
