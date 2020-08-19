@@ -11,6 +11,7 @@ PROJECT_DOC_DIR			= doc
 PROJECT_DOC_NAME		= manual.pdf
 PROJECT_SOURCES  		= src/*.c src/algorithm/*.c
 PROJECT_HEADERS			= src/*.h src/algorithm/*.h
+PROJECT_TESTS			= tests/
 
 CC              		= gcc
 CFLAGS 					= -std=gnu99 -Wall -Wextra -Werror -pedantic -g
@@ -25,7 +26,7 @@ $(PROJECT_NAME): $(PROJECT_SOURCES) $(PROJECT_HEADERS)
 ############################################
 
 ARCHIVE_NAME = xdrahn00
-ARCHIVE_FILES = Makefile $(PROJECT_SOURCES) $(PROJECT_HEADERS) -C $(PROJECT_DOC_DIR) $(PROJECT_DOC_NAME)
+ARCHIVE_FILES = Makefile $(PROJECT_SOURCES) $(PROJECT_HEADERS) $(PROJECT_TESTS) -C $(PROJECT_DOC_DIR) $(PROJECT_DOC_NAME)
 ARCHIVE_EXTENSION = .tar.gz
 ARCHIVE = $(ARCHIVE_NAME)$(ARCHIVE_EXTENSION)
 

@@ -58,25 +58,55 @@ rm -rf /home/ldrahnik/projects/ial_project_2017_2018/tests/log/*
 xdrahn00
 ├── Makefile
 ├── manual.pdf
-└── src
-    ├── algorithm
-    │   ├── bellman_ford.c
-    │   ├── bellman_ford.h
-    │   ├── dijkstra.c
-    │   ├── dijkstra.h
-    │   ├── floyd_warshall.c
-    │   ├── floyd_warshall.h
-    │   ├── johnson.c
-    │   └── johnson.h
-    ├── error.h
-    ├── graph.c
-    ├── graph.h
-    ├── params.c
-    ├── params.h
-    ├── results.c
-    ├── results.h
-    ├── shreya.c
-    └── shreya.h
+├── src
+│   ├── algorithm
+│   │   ├── bellman_ford.c
+│   │   ├── bellman_ford.h
+│   │   ├── dijkstra.c
+│   │   ├── dijkstra.h
+│   │   ├── floyd_warshall.c
+│   │   ├── floyd_warshall.h
+│   │   ├── johnson.c
+│   │   └── johnson.h
+│   ├── error.h
+│   ├── graph.c
+│   ├── graph.h
+│   ├── params.c
+│   ├── params.h
+│   ├── results.c
+│   ├── results.h
+│   ├── shreya.c
+│   └── shreya.h
+└── tests
+    ├── .gitignore
+    ├── log
+    │   └── .gitkeep
+    ├── _run-tests-diff.sh
+    ├── _run-tests.sh
+    ├── test01.in
+    ├── test01.out
+    ├── test01.png
+    ├── test02.in
+    ├── test02.out
+    ├── test02.png
+    ├── test03.in
+    ├── test03.out
+    ├── test03.png
+    ├── test04.in
+    ├── test04.out
+    ├── test04.png
+    ├── test05.in
+    ├── test05.out
+    ├── test05.png
+    ├── test06.in
+    ├── test06.out
+    ├── test06.png
+    ├── test07.in
+    ├── test07.out
+    ├── test07.png
+    ├── test08.in
+    ├── test08.out
+    └── test08.png
 
-2 directories, 19 files
+4 directories, 47 files
 ```
