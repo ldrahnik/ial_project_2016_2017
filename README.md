@@ -33,6 +33,8 @@ Options:
 
 Přidaný volitelný debugovací parametr `[-d]`.
 
+Program neimplementuje jeden algoritmus, ale více: `Bellman Ford`, `Dijkstra`, `Floyd Warshall` a `Johnson` (kombinuje `Bellman Ford` a `Dijkstra`).
+
 ## Testování programu:
 
 ```
