@@ -16,8 +16,7 @@
 #include <limits.h>
 
 TResults dijkstra(TGraph graph, int vertice_id);
-void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path);
+void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path, const char* algorithm_prefix_name);
 void printDijkstraDistances(TGraph graph, TResults results);
-void printDijkstraPredecessors(TGraph graph, TResults results);
 
 #endif

@@ -14,6 +14,7 @@
 typedef struct results {
   int** distances;
   int** predecessors;
+  TGraph graph; // if was modified graph inside algorithm - required for correct free after results printing
   int ecode;
 } TResults;
 

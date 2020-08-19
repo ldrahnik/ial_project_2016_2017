@@ -72,6 +72,11 @@ $GRAPHVIZ_TASK --input ${REF_PATH}test06.in --output ${REF_PATH}test06.png
 #
 
 # test07: cesta v neorientovaném grafu (Dijkstra)
-$TASK -i ${REF_PATH}test07.in A G > ${LOG_PATH}test07.out 2> ${LOG_PATH}test07.err
+$TASK -i ${REF_PATH}test07.in A G -o > ${LOG_PATH}test07.out 2> ${LOG_PATH}test07.err
 echo -n $? > ${LOG_PATH}test07.rc
 $GRAPHVIZ_TASK --input ${REF_PATH}test07.in --output ${REF_PATH}test07.png
+
+# test08: cesta v orientovaném grafu
+$TASK -i ${REF_PATH}test08.in A D -o > ${LOG_PATH}test08.out 2> ${LOG_PATH}test08.err
+echo -n $? > ${LOG_PATH}test08.rc
+$GRAPHVIZ_TASK --input ${REF_PATH}test08.in --output ${REF_PATH}test08.png

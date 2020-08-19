@@ -46,7 +46,7 @@ typedef struct graph {
 } TGraph;
 
 TGraph stepByStepGraphRoute(char** graph_route, int debug);
-char** parseInputToGraphRoute(char* input, int debug);
+TParams parseInputToGraphRoute(TParams params);
 TGraph getGraph(TParams params);
 int isNumber(char number[]);
 int isNonRatedEdge(char* c);
@@ -55,6 +55,13 @@ int isNumberEdge(char* c);
 int getPositionOfVertice(TGraph graph, char* vertice);
 int isVerticeValid(TGraph graph, char* vertice);
 void cleanGraph(TGraph graph);
+void cleanGraphVertex(TGraph graph, int id);
+void cleanGraphEdge(TGraph graph, int id);
 int getEdgeValue(TGraph graph, int start_vertice_id, int end_vertice_id);
+TGraph addVertex(TGraph graph, const char* new_vertex_name);
+TGraph addEdge(TGraph graph, char* start_vertice, char* end_vertice, int weight);
+TGraph removeTopVertice(TGraph graph);
+TGraph changeEdgeWeight(TGraph graph, int start_vertice_id, int end_vertice_id, int new_weight);
+int isExistsEdge(TGraph graph, int start_vertice_id, int end_vertice_id);
 
 #endif

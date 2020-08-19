@@ -30,6 +30,8 @@ TParams getParams(int argc, char *argv[]) {
     .is_graph_oriented = 0,
     .input = 0,
     .debug = 0,
+    .graph_route = NULL,
+    .graph_route_length = 0, 
   };
 
   // don't want getopt() writing to stderr
@@ -157,6 +159,12 @@ TParams getParams(int argc, char *argv[]) {
 void cleanParams(TParams params) {
   if(params.input != NULL)
     free(params.input);
-  if(params.graph_route != NULL)
+  if(params.graph_route != NULL) {
+     int i = 0;
+     while(params.graph_route[i] != NULL) {
+      free(params.graph_route[i]);
+      i++;
+    }
     free(params.graph_route);
+  }
 }

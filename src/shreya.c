@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
 
   // Floyd Warshall and Bellman Ford only rated graph
   if(graph.is_graph_oriented) {
-    fprintf(stdout, "\nFloyd Warshall:\n");
+    fprintf(stdout, "Floyd Warshall:\n");
 
     TResults results = floydWarshall(graph);
 
@@ -98,26 +98,28 @@ int main(int argc, char *argv[]) {
     fprintf(stdout, "FloydWarshall: ");
     printFloydWarshallPath(params, graph, results, start_position, end_position);
 
-    fprintf(stdout, "\n");
+    fprintf(stdout, "\n\n");
 
     cleanResults(graph, results);
   }
 
   // Floyd Warshall and Bellman Ford only rated graph
   if(graph.is_graph_oriented) {
-    fprintf(stdout, "\nBellman Ford:\n");
+    fprintf(stdout, "Bellman Ford:\n");
 
     TResults results = bellmanFord(graph, start_position);
 
     if(results.ecode != EOK) {
       if(results.ecode == ENEGATIVE_CYCLE) {
         fprintf(stderr, "Negative cycle detection which bellman ford can not handle.\n");
-      }
-      if(results.ecode == EALLOC) {
+      } else if(results.ecode == EALLOC) {
         fprintf(stderr, "Alloc problem.\n");
+        cleanResults(graph, results);
+        return results.ecode;
+      } else {
+        cleanResults(graph, results);
+        return results.ecode;
       }
-      cleanResults(graph, results);
-      return results.ecode;
     }
 
     if(params.debug) {
@@ -131,7 +133,7 @@ int main(int argc, char *argv[]) {
     }
 
     char* path = (char *)malloc(100 * sizeof(char));
-    strcpy(path, "");
+    path[0] = '\0';
     printBellmanFordPath(graph, results, end_position, start_position, 0, path);
     free(path);
 
@@ -140,9 +142,9 @@ int main(int argc, char *argv[]) {
     cleanResults(graph, results);
   }
 
-  // Dijkstra does not handle negative edge and orientation
-  if(!graph.contains_negative_edge && !graph.is_graph_oriented) {
-    fprintf(stdout, "\nDijkstra:\n");
+  // Dijkstra does not handle negative edge
+  if(!graph.contains_negative_edge) {
+    fprintf(stdout, "Dijkstra:\n");
 
     TResults results = dijkstra(graph, start_position);
 
@@ -160,10 +162,35 @@ int main(int argc, char *argv[]) {
     char* path = (char *)malloc((strlen(params.vertice_end) + 1) * sizeof(char));
     strcpy(path, params.vertice_end);
     path[strlen(params.vertice_end)] = '\0';
-    printDijkstraPath(graph, results, end_position, start_position, path);
+    const char* algorithm_prefix_name = "Dijkstra";
+    printDijkstraPath(graph, results, end_position, start_position, path, algorithm_prefix_name);
     free(path);
 
     fprintf(stdout, "\n");
+
+    cleanResults(graph, results);
+  }
+
+  // Johnson algorithm
+  if(graph.is_graph_oriented) {
+    fprintf(stdout, "Johnson:\n");
+
+    TResults results = johnson(params, graph);
+    // TODO: graph is modified for next algorithms!!!
+    graph = results.graph; // johnson method change graph (add vertex and edges, than remove but realloc was called)
+
+    if(results.ecode != EOK) {
+      fprintf(stderr, "Alloc problem.\n");
+      cleanResults(graph, results);
+      return results.ecode;
+    }
+
+    if(params.debug) {
+      printJohnsonDistances(graph, results);
+      fprintf(stdout, "\n");
+    }
+
+    printJohnsonPath(graph, results, start_position, end_position);
 
     cleanResults(graph, results);
   }

@@ -27,6 +27,7 @@
 #include "./algorithm/floyd_warshall.h"
 #include "./algorithm/bellman_ford.h"
 #include "./algorithm/dijkstra.h"
+#include "./algorithm/johnson.h"
 #include "results.h"
 
 #include <stdio.h>

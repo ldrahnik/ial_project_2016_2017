@@ -83,9 +83,10 @@ void printBellmanFordPredecessors(TGraph graph, TResults results) {
   int v, a;
   for(v = 0; v < graph.vertices_count; v++) {
     for(a = 0; a < graph.vertices_count; a++) {
-      int isEdgeValid = results.predecessors[v][a];
-      if(isEdgeValid != INT_MAX) {
-        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v]->name, a, graph.vertice[a]->name);
+      int edgeValue = results.predecessors[v][a];
+      if(edgeValue != INT_MAX) {
+        // TODO: reverted dest_id, src_id becuse bellman ford, why? refactor then in johnson
+        fprintf(stderr, "DEBUG: src_id: %i [ src: %s ] -(%i)> dest_id %i [ dest: %s ]\n", a, graph.vertice[a]->name, edgeValue, v, graph.vertice[v]->name);
       }
     }
   }

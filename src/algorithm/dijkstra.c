@@ -44,11 +44,12 @@ TResults dijkstra(TGraph graph, int vertice_id) {
 
     // Update the distances to all neighbours
     for (e = 0; e < graph.edges_count; e++) {
-      if (graph.edge[e]->src_id == current || graph.edge[e]->dest_id == current) {
-        int neighbour = graph.edge[e]->src_id == current ? graph.edge[e]->dest_id : graph.edge[e]->src_id;
+
+      if (graph.edge[e]->src_id == current || (!graph.is_graph_oriented && graph.edge[e]->dest_id == current)) {
+        int neighbour_id = graph.edge[e]->src_id == current ? graph.edge[e]->dest_id : graph.edge[e]->src_id;
         int distance = results.distances[0][current] + graph.edge[e]->weight;
-        if (distance <= results.distances[0][neighbour]) {
-          results.distances[0][neighbour] = distance;
+        if (distance < results.distances[0][neighbour_id]) {
+          results.distances[0][neighbour_id] = distance;
         }
       }
     }
@@ -58,9 +59,9 @@ TResults dijkstra(TGraph graph, int vertice_id) {
     unvisited_count--;
 
     // Find the nearest unvisited vertex
-    min_distance = 0;
+    min_distance = INT_MAX;
     for (v = 0; v < graph.vertices_count; v++) {
-      if (unvisited[v] == 1 && (min_distance == 0 || results.distances[0][v] < min_distance)) {
+      if (unvisited[v] == 1 && results.distances[0][v] < min_distance) {
         min_distance = results.distances[0][v];
         current = v;
       }
@@ -70,59 +71,52 @@ TResults dijkstra(TGraph graph, int vertice_id) {
   return results;
 }
 
-void printDijkstraPredecessors(TGraph graph, TResults results) {
-  int v, a;
-  for(v = 0; v < graph.vertices_count; v++) {
-    for(a = 0; a < graph.vertices_count; a++) {
-      int isEdgeValid = results.predecessors[v][a];
-      if(isEdgeValid) {
-        fprintf(stderr, "DEBUG: dest_id: %i [ dest: %s ] -> src_id %i [ src: %s ]\n", v, graph.vertice[v]->name, a, graph.vertice[a]->name);
-      }
-    }
-  }
-}
-
-void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path) {
-  int e, v;
+void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int start_vertice, char* path, const char* algorithm_prefix_name) {
+  int e;
 
   if(end_vertice == start_vertice) {
-    fprintf(stdout, "Dijkstra: %s\n", path);
+    fprintf(stdout, "%s: %s\n", algorithm_prefix_name, path);
     return;
   }
 
-  // for all neighbour vertices looking for shortest edge's (can be multiple with the same value)
-  int minimum = INT_MAX;
+  // looking for all neighbour (exists edge) vertices with minimum distance value (can be multiple)
+  int minimum_neighbor_distance_width_edge_value = INT_MAX;
   for(e = 0; e < graph.edges_count; e++) {
 
     int src_id = graph.edge[e]->src_id;
     int dest_id = graph.edge[e]->dest_id;
 
-    if(src_id == end_vertice && results.distances[0][dest_id] < minimum) {
-      minimum = results.distances[0][dest_id];
-    } else if(dest_id == end_vertice && results.distances[0][src_id] < minimum) {
-      minimum = results.distances[0][src_id];
+    if (dest_id == end_vertice && results.distances[0][src_id] != INT_MAX && results.distances[0][src_id] + graph.edge[e]->weight < minimum_neighbor_distance_width_edge_value) {
+      minimum_neighbor_distance_width_edge_value = results.distances[0][src_id] + graph.edge[e]->weight;
     }
   }
 
   // for all shortest paths, is it reverted path print
-  for(v = 0; v < graph.vertices_count; v++) {
+  if(minimum_neighbor_distance_width_edge_value != INT_MAX) {
+    for(e = 0; e < graph.edges_count; e++) {
 
-    if(v != end_vertice && results.distances[0][v] == minimum) {
-      char* path_new = (char *)malloc(100 * sizeof(char));
-      path_new[0] = '\0';
-      strcat(path_new, graph.vertice[v]->name);
-      strcat(path_new, " -(");
+      int src_id = graph.edge[e]->src_id;
+      int dest_id = graph.edge[e]->dest_id;
 
-      int edge_value = results.distances[0][end_vertice] - results.distances[0][v];
-      char edgeValueLikeString[10];
-      sprintf(edgeValueLikeString, "%d", edge_value);
-      strcat(path_new, edgeValueLikeString);
+      if (dest_id == end_vertice && results.distances[0][src_id] != INT_MAX && results.distances[0][src_id] + graph.edge[e]->weight == minimum_neighbor_distance_width_edge_value) {
 
-      strcat(path_new, ")> ");
-      strcat(path_new, path);
+        int edge_value = results.distances[0][end_vertice] - results.distances[0][src_id];
 
-      printDijkstraPath(graph, results, v, start_vertice, path_new);
-      free(path_new);
+        char* path_new = (char *)malloc(100 * sizeof(char));
+        path_new[0] = '\0';
+        strcat(path_new, graph.vertice[src_id]->name);
+        strcat(path_new, " -(");
+
+        char edgeValueLikeString[10];
+        sprintf(edgeValueLikeString, "%d", edge_value);
+        strcat(path_new, edgeValueLikeString);
+
+        strcat(path_new, ")> ");
+        strcat(path_new, path);
+
+        printDijkstraPath(graph, results, src_id, start_vertice, path_new, algorithm_prefix_name);
+        free(path_new);
+      }
     }
   }
 }

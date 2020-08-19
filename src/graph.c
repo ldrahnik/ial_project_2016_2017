@@ -22,14 +22,28 @@ const char *minus = "-";
 void cleanGraph(TGraph graph) {
   int i;
   for (i = 0; i < graph.edges_count; i++) {
-    free(graph.edge[i]);
+    cleanGraphEdge(graph, i);
   }
   for (i = 0; i < graph.vertices_count; i++) {
-    free(graph.vertice[i]->name);
-    free(graph.vertice[i]);
+    cleanGraphVertex(graph, i);
   }
   free(graph.edge);
   free(graph.vertice);
+}
+
+void cleanGraphEdge(TGraph graph, int id) {
+  if(graph.edge[id] != NULL) {
+    free(graph.edge[id]->src);
+    free(graph.edge[id]->dest);
+    free(graph.edge[id]);
+  }
+}
+
+void cleanGraphVertex(TGraph graph, int id) {
+  if(graph.vertice[id] != NULL) {
+    free(graph.vertice[id]->name);
+    free(graph.vertice[id]);
+  }
 }
 
 int isNumber(char number[]) {
@@ -71,47 +85,47 @@ int getPositionOfVertice(TGraph graph, char* vertice) {
 /**
  * Parse for example -i 'A 1 B 2 C' to  [0] = A, [1] = 1 ... [5] = (null)
  */
-char** parseInputToGraphRoute(char* input, int debug) {
-  char ** res = NULL;
+TParams parseInputToGraphRoute(TParams params) {
 
   // replace new line etc. with space
-  for (char* p = input; (p = strchr(p, '\r')); ++p) {
+  for (char* p = params.input; (p = strchr(p, '\r')); ++p) {
     *p = ' ';
   }
-  for (char* p = input; (p = strchr(p, '\n')); ++p) {
+  for (char* p = params.input; (p = strchr(p, '\n')); ++p) {
     *p = ' ';
   }
 
-  char *  p = strtok(input, " ");
+  char *  p = strtok(params.input, " ");
   int n_spaces = 0, i = 0;
 
   // split string and append tokens to 'res'
   while(p) {
-    res = realloc(res, sizeof (char*)* ++n_spaces);
+    params.graph_route = realloc(params.graph_route, sizeof (char*)* ++n_spaces);
 
     // memory allocation failed
-    if(res == NULL) {
+    if(params.graph_route == NULL) {
       fprintf(stderr, "Memory allocation failed.");
-      return res;
+      params.graph_route = params.graph_route;
+      return params;
     }
 
-    res[n_spaces-1] = p;
+    params.graph_route[n_spaces-1] = p;
 
     p = strtok (NULL, " ");
   }
 
   // realloc one extra element for the last NULL
-  res = realloc(res, sizeof(char*) * (n_spaces+1));
-  res[n_spaces] = 0;
+  params.graph_route = realloc(params.graph_route, sizeof(char*) * (n_spaces + 1));
+  params.graph_route[n_spaces] = NULL;
 
   // DEBUG:
-  if(debug) {
+  if(params.debug) {
     for(i = 0; i < (n_spaces+1); ++i)
-      fprintf(stderr, "DEBUG: parseInputToGraphRoute[%d] = %s\n", i, res[i]);
+      fprintf(stderr, "DEBUG: parseInputToGraphRoute[%d] = %s\n", i, params.graph_route[i]);
     fprintf(stderr, "\n");
   }
 
-  return res;
+  return params;
 }
 
 TGraph stepByStepGraphRoute(char** graph_route, int debug) {
@@ -146,24 +160,8 @@ TGraph stepByStepGraphRoute(char** graph_route, int debug) {
       if(!isVerticeValid(graph, graph_route[i])) {
         if(debug)
           fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
-        graph.vertice = (TVertice**)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
-        if(graph.vertice == NULL) {
-            graph.ecode = EALLOC;
-            return graph;
-        }
-        graph.vertice[graph.vertices_count] = malloc(sizeof(TVertice));
-        if(graph.vertice[graph.vertices_count] == NULL) {
-            graph.ecode = EALLOC;
-            return graph;
-        }
-        graph.vertice[graph.vertices_count]->name = malloc(strlen(graph_route[i]) + 1);
-        if(graph.vertice[graph.vertices_count]->name == NULL) {
-            graph.ecode = EALLOC;
-            return graph;
-        }
-        strcpy(graph.vertice[graph.vertices_count]->name, graph_route[i]);
-        graph.vertice[graph.vertices_count]->name[strlen(graph_route[i])] = '\0';
-        graph.vertices_count++;
+
+        graph = addVertex(graph, graph_route[i]);
       }
     } else if(start_vertice == 1 && edge == 0) { // edge
       edge = 1;
@@ -194,44 +192,12 @@ TGraph stepByStepGraphRoute(char** graph_route, int debug) {
       if(!isVerticeValid(graph, graph_route[i])) {
         if(debug)
           fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
-        graph.vertice = (TVertice**)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
-        if(graph.vertice == NULL) {
-            graph.ecode = EALLOC;
-            return graph;
-        }
-        graph.vertice[graph.vertices_count] = malloc(sizeof(TVertice));
-        if(graph.vertice[graph.vertices_count] == NULL) {
-            graph.ecode = EALLOC;
-            return graph;
-        }
-        graph.vertice[graph.vertices_count]->name = malloc(strlen(graph_route[i]) + 1);
-        if(graph.vertice[graph.vertices_count]->name == NULL) {
-            graph.ecode = EALLOC;
-            return graph;
-        }
-        strcpy(graph.vertice[graph.vertices_count]->name, graph_route[i]);
-        graph.vertice[graph.vertices_count]->name[strlen(graph_route[i])] = '\0';
-        graph.vertices_count++;
+
+        graph = addVertex(graph, graph_route[i]);
       }
 
-      graph.edge = (TEdge**)realloc(graph.edge, (graph.edges_count + 1) * sizeof(TEdge));
-      if(graph.edge == NULL) {
-        graph.ecode = EALLOC;
-        return graph;
-      }
-      graph.edge[graph.edges_count] = malloc(sizeof(TEdge));
-      if(graph.edge[graph.edges_count] == NULL) {
-        graph.ecode = EALLOC;
-        return graph;
-      }
+      graph = addEdge(graph, graph_route[i - 2], graph_route[i], atoi(graph_route[i - 1]));
 
-      graph.edge[graph.edges_count]->src = graph_route[i - 2];
-      graph.edge[graph.edges_count]->src_id = getPositionOfVertice(graph, graph_route[i - 2]);
-      graph.edge[graph.edges_count]->weight = atoi(graph_route[i - 1]);
-      graph.edge[graph.edges_count]->dest = graph_route[i];
-      graph.edge[graph.edges_count]->dest_id = getPositionOfVertice(graph, graph_route[i]);
-
-      graph.edges_count++;
     } else if(start_vertice == 1 && edge == 1 && end_vertice == 1) {
       if(isNumberEdge(graph_route[i])) {
         if(debug)
@@ -262,9 +228,8 @@ TGraph stepByStepGraphRoute(char** graph_route, int debug) {
         if(!isVerticeValid(graph, graph_route[i])) {
           if(debug)
             fprintf(stderr, "DEBUG: add new vertice at index: %i, %s\n", i, graph_route[i]);
-          graph.vertice = (TVertice**)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
-          graph.vertice[graph.vertices_count]->name = graph_route[i];
-          graph.vertices_count++;
+
+          graph = addVertex(graph, graph_route[i]);
         }
       }
     } else {
@@ -304,16 +269,17 @@ TGraph stepByStepGraphRoute(char** graph_route, int debug) {
  * @return TParams
  */
 TGraph getGraph(TParams params) {
-  params.graph_route = parseInputToGraphRoute(params.input, params.debug);
-  if(params.graph_route == NULL) {
-    TGraph graph;
-    graph.ecode = EALLOC;
+
+  TGraph graph;
+  graph.ecode = EOK;
+
+  params = parseInputToGraphRoute(params);
+  if(params.ecode != EOK) {
+    graph.ecode = params.ecode;
     return graph;
   }
-  TGraph graph = stepByStepGraphRoute(params.graph_route, params.debug);
-
+  graph = stepByStepGraphRoute(params.graph_route, params.debug);
   if(graph.ecode != EOK) {
-    graph.ecode = EGRAPH;
     return graph;
   }
 
@@ -372,9 +338,112 @@ TGraph getGraph(TParams params) {
   return graph;
 }
 
+int isExistsEdge(TGraph graph, int start_vertice_id, int end_vertice_id) {
+  for(int i = 0; i < graph.edges_count; i++)
+    if(graph.edge[i]->src_id == start_vertice_id && graph.edge[i]->dest_id == end_vertice_id)
+      return 1;
+  return 0;
+}
+
 int getEdgeValue(TGraph graph, int start_vertice_id, int end_vertice_id) {
   for(int i = 0; i < graph.edges_count; i++)
     if(graph.edge[i]->src_id == start_vertice_id && graph.edge[i]->dest_id == end_vertice_id)
       return graph.edge[i]->weight;
   return INT_MAX;
+}
+
+TGraph addVertex(TGraph graph, const char* new_vertex_name) {
+
+  graph.vertice = (TVertice**)realloc(graph.vertice, (graph.vertices_count + 1) * sizeof(TVertice));
+  if(graph.vertice == NULL) {
+    graph.ecode = EALLOC;
+    return graph;
+  }
+  graph.vertice[graph.vertices_count] = malloc(sizeof(TVertice));
+  if(graph.vertice[graph.vertices_count] == NULL) {
+    graph.ecode = EALLOC;
+    return graph;
+  }
+  graph.vertice[graph.vertices_count]->name = malloc(strlen(new_vertex_name) + 1);
+  if(graph.vertice[graph.vertices_count]->name == NULL) {
+    graph.ecode = EALLOC;
+    return graph;
+  }
+  strcpy(graph.vertice[graph.vertices_count]->name, new_vertex_name);
+  graph.vertice[graph.vertices_count]->name[strlen(new_vertex_name)] = '\0';
+
+  graph.vertices_count++;
+
+  return graph;
+}
+
+TGraph addEdge(TGraph graph, char* start_vertice, char* end_vertice, int weight) {
+
+   graph.edge = (TEdge**)realloc(graph.edge, (graph.edges_count + 1) * sizeof(TEdge));
+   if(graph.edge == NULL) {
+     graph.ecode = EALLOC;
+     return graph;
+   }
+   graph.edge[graph.edges_count] = malloc(sizeof(TEdge));
+   if(graph.edge[graph.edges_count] == NULL) {
+     graph.ecode = EALLOC;
+     return graph;
+   }
+   graph.edge[graph.edges_count]->src = malloc(strlen(start_vertice) + 1);
+   if(graph.edge[graph.edges_count]->src == NULL) {
+     graph.ecode = EALLOC;
+     return graph;
+   }
+   graph.edge[graph.edges_count]->dest = malloc(strlen(end_vertice) + 1);
+   if(graph.edge[graph.edges_count]->dest == NULL) {
+     graph.ecode = EALLOC;
+     return graph;
+   }
+
+   strcpy(graph.edge[graph.edges_count]->src, start_vertice);
+   graph.edge[graph.edges_count]->src_id = getPositionOfVertice(graph, start_vertice);
+   graph.edge[graph.edges_count]->weight = weight;
+   graph.edge[graph.edges_count]->src[strlen(start_vertice)] = '\0';
+   strcpy(graph.edge[graph.edges_count]->dest, end_vertice);
+   graph.edge[graph.edges_count]->dest[strlen(end_vertice)] = '\0';
+   graph.edge[graph.edges_count]->dest_id = getPositionOfVertice(graph, end_vertice);
+
+   graph.edges_count++;
+
+   return graph;
+}
+
+/** remove last added edge's associated with last added vertice too */
+TGraph removeTopVertice(TGraph graph) {
+  int i;
+
+  int last_vertice_id = graph.vertices_count - 1;
+  int last_edge_id = graph.edges_count - 1;
+
+  // edges
+  for(i = last_edge_id; i >= 0; i--) {
+    if(graph.edge[i]->src_id == last_vertice_id || graph.edge[i]->dest_id == last_vertice_id) {
+      cleanGraphEdge(graph, i);
+      graph.edges_count--;
+    } else {
+      break;
+    }
+  }
+
+  // vertex
+  cleanGraphVertex(graph, last_vertice_id);
+  graph.vertices_count--;
+
+  return graph;
+}
+
+TGraph changeEdgeWeight(TGraph graph, int start_vertice_id, int end_vertice_id, int new_weight) {
+  int i;
+
+  for(i = 0; i < graph.edges_count; i++) {
+    if(graph.edge[i]->src_id == start_vertice_id && graph.edge[i]->dest_id == end_vertice_id) {
+      graph.edge[i]->weight = new_weight;
+    }
+  }
+  return graph;
 }
