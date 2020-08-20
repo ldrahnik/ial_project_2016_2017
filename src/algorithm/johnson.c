@@ -61,29 +61,30 @@ TResults johnson(TParams params, TGraph graph) {
     }
 
     // reweight
+    TGraph modified_graph;
     for(i = 0; i < graph.vertices_count; i++) {
       for(j = 0; j < graph.vertices_count; j++) {
         if(isExistsEdge(graph, i, j)) {
           int new_weight = getEdgeValue(graph, i, j) + bellman_ford_results.distances[0][i] - bellman_ford_results.distances[0][j];
           results.predecessors[j][i] = new_weight;
-          graph = changeEdgeWeight(graph, i, j, new_weight);
+          modified_graph = changeEdgeWeight(graph, i, j, new_weight);
         }
       }
     }
 
     // clean Bellman Ford results (used for reweight)
-    cleanResults(graph, bellman_ford_results);
+    cleanResults(modified_graph, bellman_ford_results);
 
     // results.predecessors serve only for printing reweighted edges while debugging (with newly added vertex and edge's) 
     if(params.debug) {
-      printBellmanFordPredecessors(graph, results);
+      printBellmanFordPredecessors(modified_graph, results);
       fprintf(stdout, "\n");
     }
 
     free(results.predecessors[graph.vertices_count - 1]);
 
     // remove tmp vertice and edge's in graph (in results still stored)
-    TGraph modified_graph = removeTopVertice(graph);
+    modified_graph = removeTopVertice(modified_graph);
 
     // results.predecessors serve only for printing reweighted edges while debugging 
     if(params.debug) {
