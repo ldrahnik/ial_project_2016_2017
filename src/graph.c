@@ -46,6 +46,13 @@ void cleanGraphVertex(TGraph graph, int id) {
   }
 }
 
+int getEdgeValueNDigits(int edge_value) {
+  // logarithm 0 of base 10 (log10(0)) returns -HUGE_VAL
+  if(edge_value == 0)
+    return 1;
+  return floor(log10(abs(edge_value))) + 1;
+}
+
 int isNumber(char number[]) {
   int i = 0;
   if (number[0] == '-')

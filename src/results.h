@@ -19,5 +19,6 @@ typedef struct results {
 } TResults;
 
 void cleanResults(TGraph graph, TResults results);
+char* addEdgeToPath(char* path, char* src_vertex_name, int edge_value);
 
 #endif

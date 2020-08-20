@@ -27,3 +27,25 @@ void cleanResults(TGraph graph, TResults results) {
     free(results.predecessors);
   }
 }
+
+char* add_edge_to_path(char* path, char* src_vertex_name, int edge_value) {
+  const char* before_edge = " -(";
+  const char* after_edge = ")> ";
+
+  int edge_value_n_digits = getEdgeValueNDigits(edge_value);
+
+  char* path_new = (char *)malloc((strlen(path) + strlen(src_vertex_name) + strlen(before_edge) + strlen(after_edge) + edge_value_n_digits + 1) * sizeof(char));
+  path_new[0] = '\0';
+  strcat(path_new, src_vertex_name);
+  strcat(path_new, before_edge);
+
+  char* edge_value_string = malloc((edge_value_n_digits + 1) * sizeof(char));
+  sprintf(edge_value_string, "%d", edge_value);
+  strcat(path_new, edge_value_string);
+  free(edge_value_string);
+
+  strcat(path_new, after_edge);
+  strcat(path_new, path);
+
+  return path_new;
+}

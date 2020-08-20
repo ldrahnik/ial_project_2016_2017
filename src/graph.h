@@ -20,6 +20,7 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <limits.h>
+#include <math.h>
 
 typedef struct edge {
   char* src;
@@ -63,5 +64,6 @@ TGraph addEdge(TGraph graph, char* start_vertice, char* end_vertice, int weight)
 TGraph removeTopVertice(TGraph graph);
 TGraph changeEdgeWeight(TGraph graph, int start_vertice_id, int end_vertice_id, int new_weight);
 int isExistsEdge(TGraph graph, int start_vertice_id, int end_vertice_id);
+int getEdgeValueNDigits(int edge_value);
 
 #endif
