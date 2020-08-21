@@ -95,20 +95,14 @@ void printBellmanFordPredecessors(TGraph graph, TResults results) {
 void printBellmanFordPath(TGraph graph, TResults results, int end_vertice, int start_vertice, int edge_value_to_start_vertice, char* path) {
   if(start_vertice != INT_MIN) {
 
-    // TODO: does not support long path (use realloc)
-    char* path_new = (char *)malloc(1000 * sizeof(char));
-
-    strcpy(path_new, path);
+    char* path_new = NULL;
 
     if(strlen(path) != 0) {
-      strcat(path_new, " -(");
-      char edgeValueLikeString[10];
-      sprintf(edgeValueLikeString, "%d", edge_value_to_start_vertice);
-      strcat(path_new, edgeValueLikeString);
-      strcat(path_new, ")> ");
+      path_new = addEdgeToPath(path, graph.vertice[start_vertice]->name, edge_value_to_start_vertice, 1);
+    } else {
+      path_new = (char*)malloc((strlen(graph.vertice[start_vertice]->name) + 1) * sizeof(char));
+      strcpy(path_new, graph.vertice[start_vertice]->name);
     }
-
-    strcat(path_new, graph.vertice[start_vertice]->name);
 
     if(end_vertice == start_vertice) {
       fprintf(stdout, "BellmanFord: %s\n", path_new);

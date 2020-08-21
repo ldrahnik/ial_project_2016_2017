@@ -102,7 +102,7 @@ void printDijkstraPath(TGraph graph, TResults results, int end_vertice, int star
 
         int edge_value = results.distances[0][end_vertice] - results.distances[0][src_id];
 
-        char* path_new = addEdgeToPath(path, graph.vertice[src_id]->name, edge_value);
+        char* path_new = addEdgeToPath(path, graph.vertice[src_id]->name, edge_value, 0);
 
         printDijkstraPath(graph, results, src_id, start_vertice, path_new, algorithm_prefix_name);
         free(path_new);
